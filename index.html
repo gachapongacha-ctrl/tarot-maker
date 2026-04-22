@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ð ã¿ã­ããéå®æ¸ã¡ã¼ã«ã¼</title>
+<title>🌙 タロット鑑定書メーカー</title>
 <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Zen+Maru+Gothic:wght@400;500;700&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 /* ==============================
@@ -149,7 +149,7 @@ body {
   gap: 8px;
 }
 .sec-header::before {
-  content: 'â¦';
+  content: '✦';
   color: var(--gold);
   font-size: 1.1em;
   flex-shrink: 0;
@@ -380,7 +380,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 /* ==============================
-   éå®æ¸ REPORT
+   鑑定書 REPORT
 ============================== */
 .report {
   background: linear-gradient(155deg, #faf6ff 0%, #f2eaff 25%, #e8f2ff 60%, #f4eeff 100%);
@@ -430,7 +430,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   padding: 28px 26px 24px;
 }
 .report-frame::before, .report-frame::after {
-  content: 'â¦';
+  content: '✦';
   position: absolute;
   font-size: 0.6em;
   color: rgba(138,104,192,0.35);
@@ -526,7 +526,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .ori-up  { background: rgba(80,180,120,0.12); border: 1px solid rgba(80,180,120,0.28); color: #2e7052; }
 .ori-rev { background: rgba(190,80,120,0.1);  border: 1px solid rgba(190,80,120,0.25); color: #7a2a48; }
-/* ã«ã¼ãç»åï¼éå®æ¸åï¼ */
+/* カード画像（鑑定書内） */
 .r-card-img-wrap {
   display: flex;
   justify-content: center;
@@ -534,7 +534,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .r-card-img {
   width: 88px;
-  height: 132px;   /* ã¿ã­ããã«ã¼ãæ¯ç 2:3 */
+  height: 132px;   /* タロットカード比率 2:3 */
   object-fit: cover;
   object-position: center top;
   border-radius: 8px;
@@ -554,7 +554,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: rgba(138,104,192,0.4);
 }
 
-/* ç»åã¢ããã­ã¼ãï¼ã¨ãã£ã¿åï¼ */
+/* 画像アップロード（エディタ内） */
 .img-upload-area { margin-bottom: 4px; }
 .img-upload-label {
   display: flex;
@@ -629,13 +629,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .r-reader-name { font-size: 0.9em; color: var(--text-dark); font-weight: 600; }
 
 /* ==============================
-   ç¸¦é·ï¼A4ãã¼ãã¬ã¼ãï¼ã¬ãã¼ã
+   縦長（A4ポートレート）レポート
 ============================== */
 
-/* ã«ã¼ãã¯æå¤§2åï¼ç¸¦é·ã¬ã¤ããåãï¼ */
+/* カードは最大2列（縦長レイアウト向け） */
 .r-cards.c3  { grid-template-columns: 1fr 1fr; }
 
-/* ã¬ãã¼ããA4ç¸¦åãæ¯çã§ãã¬ãã¥ã¼ */
+/* レポートをA4縦向き比率でプレビュー */
 .report {
   max-width: 620px;
   margin-left: auto;
@@ -643,10 +643,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 /* ==============================
-   PRINT STYLESï¼A4ç¸¦åãï¼
+   PRINT STYLES（A4縦向き）
 ============================== */
 @media print {
-  /* A4ç¸¦åãã»ä½ç½è¨­å® */
+  /* A4縦向き・余白設定 */
   @page {
     size: A4 portrait;
     margin: 14mm 16mm;
@@ -681,10 +681,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
   .report-frame { padding: 8mm 7mm !important; }
 
-  /* ã«ã¼ããéä¸­ã§åããªãããã« */
+  /* カードが途中で切れないように */
   .r-card { break-inside: avoid; page-break-inside: avoid; }
 
-  /* ã«ã¼ãã°ãªãããå´©ããªãããã« */
+  /* カードグリッドも崩れないように */
   .r-cards { break-inside: avoid; }
 }
 
@@ -696,45 +696,45 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 ::-webkit-scrollbar-thumb { background: rgba(106,172,204,0.28); border-radius: 3px; }
 
 /* ==============================
-   ð± RESPONSIVE / MOBILE
+   📱 RESPONSIVE / MOBILE
 ============================== */
 @media (max-width: 800px) {
-  /* ãããã¼ */
+  /* ヘッダー */
   .app-header { padding: 28px 16px 20px; }
   .header-moon { font-size: 2.4em; }
   .app-title-en { letter-spacing: 2px; }
 
-  /* ã¬ã¤ã¢ã¦ãï¼ç¸¦ä¸¦ã³ */
+  /* レイアウト：縦並び */
   .main-layout {
     grid-template-columns: 1fr;
     padding: 0 14px 100px;
     gap: 20px;
   }
 
-  /* ãã¬ãã¥ã¼ã¯ä¸ã« */
+  /* プレビューは下に */
   .preview-panel {
     position: static;
     order: 2;
   }
   .editor-panel { order: 1; }
 
-  /* ã¹ãã¬ããé¸æ 2åã« */
+  /* スプレッド選択 2列に */
   .spread-selector { grid-template-columns: repeat(2, 1fr); }
 
-  /* ãã©ã¼ã è¡ãç¸¦ã« */
+  /* フォーム行も縦に */
   .form-row { grid-template-columns: 1fr; }
 
-  /* éå®æ¸ãã¬ãã¥ã¼ãç¸®å°è¡¨ç¤º */
+  /* 鑑定書プレビューを縮小表示 */
   .report { padding: 28px 20px 24px; }
   .report-frame { padding: 20px 16px 18px; }
   .rh-title-ja { font-size: 1.3em; letter-spacing: 5px; }
 
-  /* ã«ã¼ãã¯1åã«ï¼ã¹ããã§ã¯ç¸¦ç©ã¿ï¼ */
+  /* カードは1列に（スマせでは縦積み） */
   .r-cards.c3,
   .r-cards.c2,
   .r-cards.c2l { grid-template-columns: 1fr; }
 
-  /* å°å·ãã¿ã³ãåºå® */
+  /* 印刷ボタンを固定 */
   .btn-print-wrap {
     position: fixed;
     bottom: 0; left: 0; right: 0;
@@ -747,7 +747,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   .btn-print { margin-top: 0; }
   .btn-hint { display: none; }
 
-  /* ã¨ãã£ã¿ã®å°å·ãã¿ã³ãé ãï¼åºå®ã«ç½®ãæãï¼ */
+  /* エディタの印刷ボタンを隠す（固定に置き換え） */
   .editor-print-area { display: none; }
 }
 
@@ -762,87 +762,87 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 </head>
 <body>
 
-<!-- ââ STARS ââ -->
+<!-- ── STARS ── -->
 <div id="starsBg"></div>
 
-<!-- ââ HEADER ââ -->
+<!-- ── HEADER ── -->
 <header class="app-header">
-  <span class="header-moon">ð</span>
+  <span class="header-moon">🌙</span>
   <h1 class="app-title-en">Tarot Reading Report Maker</h1>
-  <p class="app-title-ja">ã¿ã­ããéå®æ¸ã¡ã¼ã«ã¼</p>
+  <p class="app-title-ja">タロット鑑定書メーカー</p>
 </header>
 
-<!-- ââ MAIN ââ -->
+<!-- ── MAIN ── -->
 <main class="main-layout">
 
-  <!-- ââ EDITOR ââ -->
+  <!-- ── EDITOR ── -->
   <div class="editor-panel">
 
-    <div class="sec-header">åºæ¬æå ±</div>
+    <div class="sec-header">基本情報</div>
 
     <div class="form-row">
       <div class="form-group">
-        <label>éå®æ¥</label>
+        <label>鑑定日</label>
         <input type="date" id="inpDate">
       </div>
       <div class="form-group">
-        <label>å ãå¸«å</label>
-        <input type="text" id="inpReader" placeholder="ä¾ï¼æã®å·«å¥³">
+        <label>占い師名</label>
+        <input type="text" id="inpReader" placeholder="例：月の巫女">
       </div>
     </div>
     <div class="form-group">
-      <label>ãä¾é ¼èæ§ã®ãåå</label>
-      <input type="text" id="inpClient" placeholder="ä¾ï¼å±±ç° è±å­ æ§">
+      <label>ご依頼者様のお名前</label>
+      <input type="text" id="inpClient" placeholder="例：山田 花子 様">
     </div>
     <div class="form-group">
-      <label>éå®ãã¼ãã»ãè³ªå</label>
-      <input type="text" id="inpTheme" placeholder="ä¾ï¼ä»å¹´ã®ææéã«ã¤ãã¦">
+      <label>鑑定テーマ・ご質問</label>
+      <input type="text" id="inpTheme" placeholder="例：今年の恋愛運について">
     </div>
 
     <div class="divider"></div>
 
-    <div class="sec-header">ã¹ãã¬ãã</div>
+    <div class="sec-header">スプレッド</div>
     <div class="spread-selector">
-      <button class="spread-btn" data-spread="one">ã¯ã³ãªã©ã¯ã«<small>1æ</small></button>
-      <button class="spread-btn active" data-spread="three">ã¹ãªã¼ã«ã¼ã<small>3æ</small></button>
-      <button class="spread-btn" data-spread="celtic">ã±ã«ãåå­<small>10æ</small></button>
-      <button class="spread-btn" data-spread="hexa">ãã­ãµã°ã©ã <small>7æ</small></button>
-      <button class="spread-btn" data-spread="horse">é¦¬è¹å½¢<small>7æ</small></button>
-      <button class="spread-btn" data-spread="custom">ã«ã¹ã¿ã <small>èªç±</small></button>
+      <button class="spread-btn" data-spread="one">ワンオラクル<small>1枚</small></button>
+      <button class="spread-btn active" data-spread="three">スリーカード<small>3枚</small></button>
+      <button class="spread-btn" data-spread="celtic">ケルト十字<small>10枚</small></button>
+      <button class="spread-btn" data-spread="hexa">ヘキサグラム<small>7枚</small></button>
+      <button class="spread-btn" data-spread="horse">馬蹄形<small>7枚</small></button>
+      <button class="spread-btn" data-spread="custom">カスタム<small>自由</small></button>
     </div>
 
-    <div class="sec-header">ã«ã¼ã</div>
+    <div class="sec-header">カード</div>
     <div class="cards-container" id="cardsContainer"></div>
-    <button class="btn-add-card" id="btnAddCard">ï¼ ã«ã¼ããè¿½å ãã</button>
+    <button class="btn-add-card" id="btnAddCard">＋ カードを追加する</button>
 
     <div class="divider"></div>
 
-    <div class="sec-header">éå®çµæ</div>
+    <div class="sec-header">鑑定結果</div>
     <div class="form-group">
-      <textarea id="inpOverall" placeholder="éå®å¨ä½ã®ã¡ãã»ã¼ã¸ã»ã¢ããã¤ã¹ããè¨å¥ãã ãã..." rows="5"></textarea>
+      <textarea id="inpOverall" placeholder="鑑定全体のメッセージ・アドバイスをご記入ください..." rows="5"></textarea>
     </div>
 
     <div class="editor-print-area">
       <div class="divider"></div>
-      <button class="btn-print" id="btnPrint">ð &nbsp; PDF ã§ä¿å­ãã</button>
-      <p class="btn-hint">ãã©ã¦ã¶ã®å°å·ç»é¢ãéãã¾ãããPDFã§ä¿å­ããé¸æãã¦ãã ããã</p>
+      <button class="btn-print" id="btnPrint">🌙 &nbsp; PDF で保存する</button>
+      <p class="btn-hint">ブラウザの印刷画面が開きます。「PDFに保存」を選択してください。</p>
     </div>
 
   </div>
 
-  <!-- ââ PREVIEW ââ -->
+  <!-- ── PREVIEW ── -->
   <div class="preview-panel">
 
-    <p class="preview-label">â¦ &nbsp; ãã¬ãã¥ã¼ï¼A4ç¸¦åãï¼&nbsp; â¦</p>
+    <p class="preview-label">✦ &nbsp; プレビュー（A4縦向き）&nbsp; ✦</p>
 
     <div class="report" id="report">
-      <div class="report-watermark">ð</div>
+      <div class="report-watermark">🌙</div>
       <div class="report-blob-1"></div>
       <div class="report-blob-2"></div>
       <div class="report-blob-3"></div>
       <div class="report-frame" id="reportFrame">
-        <span class="corner-ornament tl">â¦</span>
-        <span class="corner-ornament bl">â¦</span>
+        <span class="corner-ornament tl">✦</span>
+        <span class="corner-ornament bl">✦</span>
       </div>
     </div>
 
@@ -850,55 +850,55 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 </main>
 
-<!-- ã¢ãã¤ã«ç¨åºå®å°å·ãã¿ã³ -->
+<!-- モバイル用固定印刷ボタン -->
 <div class="btn-print-wrap" id="mobilePrintWrap">
-  <button class="btn-print" id="btnPrintMobile">ð &nbsp; PDF ã§ä¿å­ãã</button>
+  <button class="btn-print" id="btnPrintMobile">🌙 &nbsp; PDF で保存する</button>
 </div>
 
-<!-- ã«ã¼ãå datalist -->
+<!-- カード名 datalist -->
 <datalist id="tarotList">
-  <option value="æèï¼The Foolï¼">
-  <option value="é­è¡å¸«ï¼The Magicianï¼">
-  <option value="å¥³æçï¼The High Priestessï¼">
-  <option value="å¥³å¸ï¼The Empressï¼">
-  <option value="çå¸ï¼The Emperorï¼">
-  <option value="æ³çï¼The Hierophantï¼">
-  <option value="æäººãã¡ï¼The Loversï¼">
-  <option value="æ¦è»ï¼The Chariotï¼">
-  <option value="åï¼Strengthï¼">
-  <option value="é èï¼The Hermitï¼">
-  <option value="éå½ã®è¼ªï¼Wheel of Fortuneï¼">
-  <option value="æ­£ç¾©ï¼Justiceï¼">
-  <option value="åããããç·ï¼The Hanged Manï¼">
-  <option value="æ­»ç¥ï¼Deathï¼">
-  <option value="ç¯å¶ï¼Temperanceï¼">
-  <option value="æªé­ï¼The Devilï¼">
-  <option value="å¡ï¼The Towerï¼">
-  <option value="æï¼The Starï¼">
-  <option value="æï¼The Moonï¼">
-  <option value="å¤ªé½ï¼The Sunï¼">
-  <option value="å¯©å¤ï¼Judgementï¼">
-  <option value="ä¸çï¼The Worldï¼">
-  <option value="ã¯ã³ãã®ã¨ã¼ã¹"><option value="ã¯ã³ãã¯2"><option value="ã¯ã³ãã®3">
-  <option value="ã¯ã³ãã®4"><option value="ã¯ã³ãã®5"><option value="ã¯ã³ãã®6">
-  <option value="ã¯ã³ãã®7"><option value="ã¯ã³ãã®8"><option value="ã¯ã³ãã®9">
-  <option value="ã¯ã³ãã®10"><option value="ã¯ã³ãã®ãã¤ã¸"><option value="ã¯ã³ãã®ãã¤ã">
-  <option value="ã¯ã³ãã®ã¯ã¤ã¼ã³"><option value="ã¯ã³ãã®ã­ã³ã°">
-  <option value="ã«ããã®ã¨ã¼ã¹"><option value="ã«ããã®2"><option value="ã«ããã®3">
-  <option value="ã«ããã®4"><option value="ã«ããã®5"><option value="ã«ããã®6">
-  <option value="ã«ããã®7"><option value="ã«ããã®8"><option value="ã«ããã®9">
-  <option value="ã«ããã®10"><option value="ã«ããã®ãã¤ã¸"><option value="ã«ããã®ãã¤ã">
-  <option value="ã«ããã®ã¯ã¤ã¼ã³"><option value="ã«ããã®ã­ã³ã°">
-  <option value="ã½ã¼ãã®ã¨ã¼ã¹"><option value="ã½ã¼ãã®2"><option value="ã½ã¼ãã®3">
-  <option value="ã½ã¼ãã®4"><option value="ã½ã¼ãã®5"><option value="ã½ã¼ãã®6">
-  <option value="ã½ã¼ãã®7"><option value="ã½ã¼ãã®8"><option value="ã½ã¼ãã®9">
-  <option value="ã½ã¼ãã®10"><option value="ã½ã¼ãã®ãã¤ã¸"><option value="ã½ã¼ãã®ãã¤ã">
-  <option value="ã½ã¼ãã®ã¯ã¤ã¼ã³"><option value="ã½ã¼ãã®ã­ã³ã°">
-  <option value="ãã³ã¿ã¯ã«ã®ã¨ã¼ã¹"><option value="ãã³ã¿ã¯ã«ã®2"><option value="ãã³ã¿ã¯ã«ã®3">
-  <option value="ãã³ã¿ã¯ã«ã®4"><option value="ãã³ã¿ã¯ã«ã®5"><option value="ãã³ã¿ã¯ã«ã®6">
-  <option value="ãã³ã¿ã¯ã«ã®7"><option value="ãã³ã¿ã¯ã«ã®8"><option value="ãã³ã¿ã¯ã«ã®9">
-  <option value="ãã³ã¿ã¯ã«ã®10"><option value="ãã³ã¿ã¯ã«ã®ãã¤ã¸"><option value="ãã³ã¿ã¯ã«ã®ãã¤ã">
-  <option value="ãã³ã¿ã¯ã«ã®ã¯ã¤ã¼ã³"><option value="ãã³ã¿ã¯ã«ã®ã­ã³ã°">
+  <option value="愚者（The Fool）">
+  <option value="魔術師（The Magician）">
+  <option value="女教皇（The High Priestess）">
+  <option value="女帝（The Empress）">
+  <option value="皇帝（The Emperor）">
+  <option value="法王（The Hierophant）">
+  <option value="恋人たち（The Lovers）">
+  <option value="戦車（The Chariot）">
+  <option value="力（Strength）">
+  <option value="隠者（The Hermit）">
+  <option value="運命の輪（Wheel of Fortune）">
+  <option value="正義（Justice）">
+  <option value="吊るされた男（The Hanged Man）">
+  <option value="死神（Death）">
+  <option value="節制（Temperance）">
+  <option value="悪魔（The Devil）">
+  <option value="塔（The Tower）">
+  <option value="星（The Star）">
+  <option value="月（The Moon）">
+  <option value="太陽（The Sun）">
+  <option value="審判（Judgement）">
+  <option value="世界（The World）">
+  <option value="ワンドのエース"><option value="ワンドの2"><option value="ワンドの3">
+  <option value="ワンドの4"><option value="ワンドの5"><option value="ワンドの6">
+  <option value="ワンドの7"><option value="ワンドの8"><option value="ワンドの9">
+  <option value="ワンドの10"><option value="ワンドのペイジ"><option value="ワンドのナイト">
+  <option value="ワンドのクイーン"><option value="ワンドのキング">
+  <option value="カップのエース"><option value="カップの2"><option value="カップの3">
+  <option value="カップの4"><option value="カップの5"><option value="カップの6">
+  <option value="カップの7"><option value="カップの8"><option value="カップの9">
+  <option value="カップの10"><option value="カップのペイジ"><option value="カップのナイト">
+  <option value="カップのクイーン"><option value="カップのキング">
+  <option value="ソードのエース"><option value="ソードの2"><option value="ソードの3">
+  <option value="ソードの4"><option value="ソードの5"><option value="ソードの6">
+  <option value="ソードの7"><option value="ソードの8"><option value="ソードの9">
+  <option value="ソードの10"><option value="ソードのペイジ"><option value="ソードのナイト">
+  <option value="ソードのクイーン"><option value="ソードのキング">
+  <option value="ペンタクルのエース"><option value="ペンタクルの2"><option value="ペンタクルの3">
+  <option value="ペンタクルの4"><option value="ペンタクルの5"><option value="ペンタクルの6">
+  <option value="ペンタクルの7"><option value="ペンタクルの8"><option value="ペンタクルの9">
+  <option value="ペンタクルの10"><option value="ペンタクルのペイジ"><option value="ペンタクルのナイト">
+  <option value="ペンタクルのクイーン"><option value="ペンタクルのキング">
 </datalist>
 
 <script>
@@ -906,66 +906,133 @@ input[type="date"]::-webkit-calendar-picker-indicator {
    SPREAD PRESETS
 ============================== */
 const SPREADS = {
-  one:    { name:'ã¯ã³ãªã©ã¯ã«',   pos:['ã¡ãã»ã¼ã¸'] },
-  three:  { name:'ã¹ãªã¼ã«ã¼ã',   pos:['éå»','ç¾å¨','æªæ¥'] },
-  celtic: { name:'ã±ã«ãåå­',     pos:['ç¾ç¶','äº¤å·®ï¼éå®³ï¼','æ½å¨æè­ã®åºç¤','éå»ã®å½±é¿','å¯è½æ§ã®é ç¹','è¿ãæªæ¥','èªåã®ç«å ´','å¨å²ã®ç¶æ³','å¸æã¨æã','æçµçµæ'] },
-  hexa:   { name:'ãã­ãµã°ã©ã ',   pos:['éå»','ç¾å¨','æªæ¥','æ·±å±¤å¿ç','å¨å²ã®ç*ÛÎ°
-'C
-
-ä°rÖÖCzptô°(¡½ÉÍèì¹µè¦³¢æö°Á½Ìél¦;:ì°>ûr£»*ÛÎ°r«v»>¿¢÷°ösr£?¢¶`°F£nË»?¢,°
-'C
-
-ä°rÖj«ÖCzptô°(ÕÍÑ½´èì¹µè
-¯
-ç
-ÿ°Á½Ìémtô°)ôì((¼¨ôôôôôôôôôôôôôôôôôôôôôôôôôôôôôô(MQQ(ôôôôôôôôôôôôôôôôôôôôôôôôôôôôôô¨¼)±ÐÍÑÑôì(ÍÁÉèÑ¡É°(ÉÌèmt°)ôì((¼¨ôôôôôôôôôôôôôôôôôôôôôôôôôôôôôô(%9%P(ôôôôôôôôôôôôôôôôôôôôôôôôôôôôôô¨¼)½Õµ¹Ð¹Ù¹Ñ1¥ÍÑ¹È =5
-½¹Ñ¹Ñ1½° ¤ôøì(ÉÑMÑÉÌ ¤ì(ÍÑQ½ä ¤ì(±½MÁÉ Ñ¡É¤ì(¥¹±° ¤ì(É¹È ¤ì(¡¥5½¥±AÉ¥¹Ð ¤ì)ô¤ì((¼¨ôôôôôôôôôôôôôôôôôôôôôôôôôôôôôô(5=	%1AI%9P	UQQ=8(ôôôôôôôôôôôôôôôôôôôôôôôôôôôôôô¨¼)Õ¹Ñ¥½¸¡¥5½¥±AÉ¥¹Ð ¤ì(¼¼C
-¯î[¿nëºk6Ã"ßs
-ÿÏ
-K¦v{¢£è(¥¡Ý¥¹½Ü¹¥¹¹É]¥Ñ øàÀÀ¤ì(½¹ÍÐÜô½Õµ¹Ð¹Ñ±µ¹Ñ	å% µ½¥±AÉ¥¹Ñ]ÉÀ¤ì(¥¡Ü¤Ü¹ÍÑå±¹¥ÍÁ±äô¹½¹ì(ô)ô((¼¨ôôôôôôôôôôôôôôôôôôôôôôôôôôôôôô(MQIL(ôôôôôôôôôôôôôôôôôôôôôôôôôôôôôô¨¼)Õ¹Ñ¥½¸ÉÑMÑÉÌ ¤ì(½¹ÍÐô½Õµ¹Ð¹Ñ±µ¹Ñ	å% ÍÑÉÍ	¤ì(½È¡±Ð¤ôÀì¤ðäÀì¤¬¬¤ì(½¹ÍÐÌô½Õµ¹Ð¹ÉÑ±µ¹Ð ¥Ø¤ì(Ì¹±ÍÍ9µôÍÑÈì(½¹ÍÐÍèô5Ñ ¹É¹½´ ¤¨È¸È¬À¸Ðì(Ì¹ÍÑå±¹ÍÍQáÐô(Ý¥Ñ èíÍéõÁàì¡¥¡ÐèíÍéõÁàì(Ñ½Àèí5Ñ ¹É¹½´ ¤¨ÄÀÁôì(±Ðèí5Ñ ¹É¹½´ ¤¨ÄÀÁôì(´µÕÈèìÈ­5Ñ ¹É¹½´ ¤¨Ì¸ÕõÌì(´µ°èí5Ñ ¹É¹½´ ¤¨ÑõÌì(½Á¥ÑäèìÀ¸Ä­5Ñ ¹É¹½´ ¤¨À¸ÐÕôì(ì(¹ÁÁ¹
-¡¥±¡Ì¤ì(ô)ô((¼¨ôôôôôôôôôôôôôôôôôôôôôôôôôôôôôô(Q(ôôôôôôôôôôôôôôôôôôôôôôôôôôôôôô¨¼)Õ¹Ñ¥½¸ÍÑQ½ä ¤ì(½¹ÍÐô¹ÜÑ ¤ì(½Õµ¹Ð¹Ñ±µ¹Ñ	å% ¥¹ÁÑ¤¹Ù±Õô(í¹ÑÕ±±eÈ ¥ô´íMÑÉ¥¹¡¹Ñ5½¹Ñ  ¤¬Ä¤¹ÁMÑÉÐ È°À¥ô´íMÑÉ¥¹¡¹ÑÑ ¤¤¹ÁMÑÉÐ È°À¥õì)ô((¼¨ôôôôôôôôôôôôôôôôôôôôôôôôôôôôôô(MAI(ôôôôôôôôôôôôôôôôôôôôôôôôôôôôôô¨¼)Õ¹Ñ¥½¸±½MÁÉ¡­ä¤ì(ÍÑÑ¹ÍÁÉô­äì(½Õµ¹Ð¹ÅÕÉåM±Ñ½É±° ¹ÍÁÉµÑ¸¤¹½É ¡ôø(¹±ÍÍ1¥ÍÐ¹Ñ½± Ñ¥Ù°¹ÑÍÐ¹ÍÁÉôôô­ä¤¤ì(ÍÑÑ¹ÉÌôMAIMm­åt¹Á½Ì¹µÀ¡Àôø¡ìÁ½ÌéÀ°¹µè°½É¤è¶ö7ö¸°¥µUÉ°èô¤¤ì(É¹É
-É¥Ñ½È ¤ì(É¹È ¤ì)ô((¼¨ôôôôôôôôôôôôôôôôôôôôôôôôôôôôôô(
-I%Q=H(ôôôôôôôôôôôôôôôôôôôôôôôôôôôôôô¨¼)Õ¹Ñ¥½¸É¹É
-É¥Ñ½È ¤ì(½¹ÍÐô½Õµ¹Ð¹Ñ±µ¹Ñ	å% ÉÍ
-½¹Ñ¥¹È¤ì(¹¥¹¹É!Q50ôì(ÍÑÑ¹ÉÌ¹½É  ¡É°¤¤ôøì(½¹ÍÐ°ô document.createElement('div');
+  one:    { name:'ワンオラクル',   pos:['メッセージ'] },
+  three:  { name:'スリーカード',   pos:['過去','現在','未来'] },
+  celtic: { name:'ケルト十字',     pos:['現状','交差（障害）','潜在意識の基盤','過去の影響','可能性の頂点','近い未来','自分の立場','周囲の状況','希望と恐れ','最終結果'] },
+  hexa:   { name:'ヘキサグラム',   pos:['過去','現在','未来','深層心理','周囲の状況','アドバイス','最終結果'] },
+  horse:  { name:'馬蹄形',         pos:['過去','現在の状況','未来の可能性','潜在意識','周囲の意見','アドバイス','最終的な結果'] },
+  custom: { name:'カスタム',       pos:[] },
+};
+
+/* ==============================
+   STATE
+============================== */
+let state = {
+  spread: 'three',
+  cards:  [],
+};
+
+/* ==============================
+   INIT
+============================== */
+document.addEventListener('DOMContentLoaded', () => {
+  createStars();
+  setToday();
+  loadSpread('three');
+  bindAll();
+  render();
+  hideMobilePrint();
+});
+
+/* ==============================
+   MOBILE PRINT BUTTON
+============================== */
+function hideMobilePrint() {
+  // モバイル以外では固定印刷ボタンを非表示
+  if (window.innerWidth > 800) {
+    const w = document.getElementById('mobilePrintWrap');
+    if (w) w.style.display = 'none';
+  }
+}
+
+/* ==============================
+   STARS
+============================== */
+function createStars() {
+  const bg = document.getElementById('starsBg');
+  for (let i = 0; i < 90; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = Math.random() * 2.2 + 0.4;
+    s.style.cssText = `
+      width:${sz}px; height:${sz}px;
+      top:${Math.random()*100}%;
+      left:${Math.random()*100}%;
+      --dur:${2+Math.random()*3.5}s;
+      --del:${Math.random()*4}s;
+      opacity:${0.1+Math.random()*0.45};
+    `;
+    bg.appendChild(s);
+  }
+}
+
+/* ==============================
+   DATE
+============================== */
+function setToday() {
+  const d = new Date();
+  document.getElementById('inpDate').value =
+    `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+/* ==============================
+   SPREAD
+============================== */
+function loadSpread(key) {
+  state.spread = key;
+  document.querySelectorAll('.spread-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.spread === key));
+  state.cards = SPREADS[key].pos.map(p => ({ pos:p, name:'', ori:'正位置', imgUrl:'' }));
+  renderCardEditor();
+  render();
+}
+
+/* ==============================
+   CARD EDITOR
+============================== */
+function renderCardEditor() {
+  const c = document.getElementById('cardsContainer');
+  c.innerHTML = '';
+  state.cards.forEach((card, i) => {
+    const el = document.createElement('div');
     el.className = 'card-entry';
     el.innerHTML = `
       <div class="card-entry-header">
-        <span class="card-num-label">â¦ ã«ã¼ã ${i+1}</span>
-        <button class="btn-remove-card" onclick="removeCard(${i})" title="åé¤">Ã</button>
+        <span class="card-num-label">✦ カード ${i+1}</span>
+        <button class="btn-remove-card" onclick="removeCard(${i})" title="削除">×</button>
       </div>
       <div class="form-row">
         <div class="form-group">
-          <label>ãã¸ã·ã§ã³å</label>
-          <input type="text" placeholder="ä¾ï¼éå»" value="${esc(card.pos)}"
+          <label>ポジション名</label>
+          <input type="text" placeholder="例：過去" value="${esc(card.pos)}"
             oninput="state.cards[${i}].pos=this.value;render()">
         </div>
         <div class="form-group">
-          <label>ã«ã¼ãå</label>
-          <input type="text" list="tarotList" placeholder="ä¾ï¼æï¼The Moonï¼" value="${esc(card.name)}"
+          <label>カード名</label>
+          <input type="text" list="tarotList" placeholder="例：月（The Moon）" value="${esc(card.name)}"
             oninput="state.cards[${i}].name=this.value;render()">
         </div>
       </div>
       <div class="form-group">
-        <label>åã</label>
+        <label>向き</label>
         <div class="orientation-row">
-          <button class="ori-btn up ${card.ori==='æ­£ä½ç½®'?'active':''}"
-            onclick="setOri(${i},'æ­£ä½ç½®',this)">â½ æ­£ä½ç½®</button>
-          <button class="ori-btn rev ${card.ori==='éä½ç½®'?'active':''}"
-            onclick="setOri(${i},'éä½ç½®',this)">â¾ éä½ç½®</button>
+          <button class="ori-btn up ${card.ori==='正位置'?'active':''}"
+            onclick="setOri(${i},'正位置',this)">☽ 正位置</button>
+          <button class="ori-btn rev ${card.ori==='逆位置'?'active':''}"
+            onclick="setOri(${i},'逆位置',this)">☾ 逆位置</button>
         </div>
       </div>
       <div class="form-group img-upload-area">
-        <label>ã«ã¼ãç»å</label>
+        <label>カード画像</label>
         <label class="img-upload-label" for="cardImg_${i}">
-          ð· &nbsp;${card.imgUrl ? 'ç»åãå¤æ´ãã' : 'ç»åãã¢ããã­ã¼ã'}
+          📷 &nbsp;${card.imgUrl ? '画像を変更する' : '画像をアップロード'}
         </label>
         <input class="img-upload-input" type="file" accept="image/*"
           id="cardImg_${i}" onchange="setCardImage(${i}, this)">
         ${card.imgUrl ? `
         <div class="img-editor-row">
-          <img class="img-editor-preview" src="${card.imgUrl}" alt="ã«ã¼ãç»å">
-          <button class="btn-remove-img" onclick="removeCardImage(${i})">â åé¤</button>
+          <img class="img-editor-preview" src="${card.imgUrl}" alt="カード画像">
+          <button class="btn-remove-img" onclick="removeCardImage(${i})">✕ 削除</button>
         </div>` : ''}
       </div>
     `;
@@ -987,7 +1054,7 @@ function removeCard(i) {
 }
 
 function addCard() {
-  state.cards.push({ pos:'', name:'', ori:'æ­£ä½ç½®', imgUrl:'' });
+  state.cards.push({ pos:'', name:'', ori:'正位置', imgUrl:'' });
   renderCardEditor();
   render();
 }
@@ -1001,4 +1068,129 @@ function setCardImage(i, input) {
     renderCardEditor();
     render();
   };
-  reader.readAsDataURL"°¢Ó°¢&VFW"ç&VD4FFU$ÂfÆR°§Ð ¦gVæ7Föâ&VÖ÷fT6&DÖvR°¢7FFRæ6&G5¶ÒæÖuW&ÂÒrs°¢&VæFW$6&DVFF÷"°¢&VæFW"°§Ð ¢ò¢ÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÐ¢$äBUdTåE0£ÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÒ¢ð¦gVæ7Föâ&æDÆÂ°¢Fö7VÖVçBçVW'6VÆV7F÷$ÆÂrç7&VBÖ'Fâræf÷$V6"Óà¢"æFDWfVçDÆ7FVæW"v6Æ6²rÂÓâÆöE7&VB"æFF6WBç7&VB°¢Fö7VÖVçBævWDVÆVÖVçD'Bv'FäFD6&BræFDWfVçDÆ7FVæW"v6Æ6²rÂFD6&B°¢Fö7VÖVçBævWDVÆVÖVçD'Bv'Få&çBræFDWfVçDÆ7FVæW"v6Æ6²rÂÓâvæF÷rç&çB°¢6öç7BÖ"ÒFö7VÖVçBævWDVÆVÖVçD'Bv'Få&çDÖö&ÆRr°¢bÖ"Ö"æFDWfVçDÆ7FVæW"v6Æ6²rÂÓâvæF÷rç&çB°¢²vçFFRrÂvç&VFW"rÂvç6ÆVçBrÂvçFVÖRrÂvç÷fW&ÆÂuÐ¢æf÷$V6BÓâFö7VÖVçBævWDVÆVÖVçD'BBæFDWfVçDÆ7FVæW"vçWBrÂ&VæFW"°¢væF÷ræFDWfVçDÆ7FVæW"w&W6¦RrÂFTÖö&ÆU&çB°§Ð ¢ò¢ÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÐ¢$TäDU"$Uõ%@£ÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÒ¢ð¦gVæ7Föâ&VæFW"°¢6öç7B6ÆVçBÒFö7VÖVçBævWDVÆVÖVçD'Bvç6ÆVçBrçfÇVRçG&Ò°¢6öç7B&VFW"ÒFö7VÖVçBævWDVÆVÖVçD'Bvç&VFW"rçfÇVRçG&Ò°¢6öç7BFFUfÂÒFö7VÖVçBævWDVÆVÖVçD'BvçFFRrçfÇVS°¢6öç7BFVÖRÒFö7VÖVçBævWDVÆVÖVçD'BvçFVÖRrçfÇVRçG&Ò°¢6öç7B÷fW&ÆÂÒFö7VÖVçBævWDVÆVÖVçD'Bvç÷fW&ÆÂrçfÇVRçG&Ò° ¢6öç7BFFU7G"ÒFFUfÀ¢òæWrFFRFFUfÂ²uC££rçFôÆö6ÆTFFU7G&ærv¦Ô¥rÂ²V#¢vçVÖW&2rÂÖöçF¢vÆöærrÂF¢vçVÖW&2rÒ¢¢rs°¢6öç7B7&VDæÖRÒ5$TE5·7FFRç7&VEÓòææÖRÇÂrs° ¢6öç7BâÒ7FFRæ6&G2æÆVæwF°¢ÆWBw&D6Ç2Òv3s°¢bâÓÓÒ"w&D6Ç2Òv3"s°¢VÇ6RbâÓÓÒ2w&D6Ç2Òv32s°¢VÇ6RbâãÒBw&D6Ç2Òv3&Âs° ¢6öç7B6&G4FÖÂÒâÓÓÒòrr¢ ¢ÆFb6Æ73Ò'"×6V2×FFÆR#î8*¾8;Î88ÂöFcà¢ÆFb6Æ73Ò'"Ö6&G2G¶w&D6Ç7Ò#à¢G·7FFRæ6&G2æÖ6&BÓâ ¢ÆFb6Æ73Ò'"Ö6&B#à¢ÆFb6Æ73Ò'"Ö6&BÖÖr×w&#à¢G¶6&BæÖuW&À¢òÆÖr6Æ73Ò'"Ö6&BÖÖr"7&3Ò"G¶6&BæÖuW&ÇÒ"ÇCÒ"G¶FÖÂ6&BææÖRÒ#æ ¢¢ÆFb6Æ73Ò'"Ö6&BÖÖr×Æ6VöÆFW"#ï	øÉÂöFcæÐ¢ÂöFcà¢G¶6&Bç÷2òÆFb6Æ73Ò'"Ö6&B×÷2#âG¶FÖÂ6&Bç÷2ÓÂöFcæ¢rwÐ¢ÆFb6Æ73Ò'"Ö6&BÖæÖR#âG¶6&BææÖRòFÖÂ6&BææÖR¢~(	RwÓÂöFcà¢Ç7â6Æ73Ò'"Ö6&BÖ÷&G¶6&Bæ÷&ÓÓÒ~jÚ>KØÞ{Úâsòv÷&×Ws¢v÷&×&WbwÒ#à¢G¶6&Bæ÷&ÓÓÒ~jÚ>KØÞ{Úârò~)ÒjÚ>KØÞ{Úâr¢~)ânKØÞ{ÚâwÐ¢Â÷7ãà¢ÂöFcà¢æ¦öârrÐ¢ÂöFcà¢° ¢6öç7B÷fW&ÆÄFÖÂÒ÷fW&ÆÂò ¢ÆFb6Æ73Ò'"×6V2×FFÆR#îZé®{YiéÃÂöFcà¢ÆFb6Æ73Ò'"Ö÷fW&ÆÂ#âG¶FÖÂ÷fW&ÆÂç&WÆ6RõÆâörÂsÆ'#ârÓÂöFcà¢¢rs° ¢6öç7Bæfõ&÷w2Ò°¢²Æ&Ã¢~Zé®izRrÂfÃ¢FFU7G"ÇÂ~(	RrÒÀ¢²Æ&Ã¢~8+89~8:Î88>88rÂfÃ¢7&VDæÖRÒÀ¢²Æ&Ã¢~8NKéÞÎ^jyrÂfÃ¢6ÆVçBòFÖÂ6ÆVçB²rjyr¢~(	RrÒÀ¢âââFVÖRò·²Æ&Ã¢~Zé®88n8;Î89ârÂfÃ¢FÖÂFVÖRÂgVÆÃ¢G'VRÕÒ¢µÒÀ¢Ó°¢6öç7BæfôFÖÂÒæfõ&÷w2æÖ"Óà¢ÆFb6Æ73Ò'&ÖFVÒG·"ægVÆÃòrgVÆÂs¢rwÒ#à¢Ç7â6Æ73Ò'&ÖÆ&Â#âG·"æÆ&ÇÓÂ÷7ãà¢Ç7â6Æ73Ò'&×fÂ#âG·"çfÇÓÂ÷7ãà¢ÂöFcæ ¢æ¦öârr° ¢Fö7VÖVçBævWDVÆVÖVçD'Bw&W÷'Dg&ÖRræææW$DÔÂÒ ¢Ç7â6Æ73Ò&6÷&æW"Ö÷&æÖVçBFÂ#î)ÊcÂ÷7ãà¢Ç7â6Æ73Ò&6÷&æW"Ö÷&æÖVçB&Â#î)ÊcÂ÷7ãà ¢ÆFb6Æ73Ò'&W÷'BÖVB#à¢Ç7â6Æ73Ò'&ÖÖööâ#ï	øÉÂ÷7ãà¢ÆFb6Æ73Ò'&×7F'2#î)Êbfæ'7²)Êrfæ'7²)Rfæ'7²)Êrfæ'7²)ÊcÂöFcà¢ÆFb6Æ73Ò'&×FFÆRÖVâ#åF&÷B&VFær&W÷'CÂöFcà¢ÆFb6Æ73Ò'&×FFÆRÖ¦#î8+þ8:Þ88>88Zé®i»ÂöFcà¢Æ"6Æ73Ò'&ÖFfFW"#à¢ÂöFcà ¢ÆFb6Æ73Ò'&W÷'BÖæfò#âG¶æfôFÖÇÓÂöFcà ¢G¶6&G4FÖÇÐ¢G¶÷fW&ÆÄFÖÇÐ ¢ÆFb6Æ73Ò'"Öfö÷FW"#à¢ÆFb6Æ73Ò'"Öfö÷FW"×7F'2#î)Êbfæ'7²	øÉfæ'7²)Êrfæ'7²*Ùfæ'7²)ÊcÂöFcà¢ÆFb6Æ73Ò'"×&VFW"#à¢ÆFb6Æ73Ò'"×&VFW"ÖÆ&Â#îXÚ8N[³ÂöFcà¢ÆFb6Æ73Ò'"×&VFW"ÖæÖR#âG·&VFW"òFÖÂ&VFW"¢~(	RwÓÂöFcà¢ÂöFcà¢ÂöFcà¢°§Ð ¢ò¢ÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÐ¢UDÅ0£ÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÓÒ¢ð¦gVæ7FöâFÖÂ2°¢&WGW&â7G&ær2¢ç&WÆ6RòbörÂrf×²r¢ç&WÆ6RóÂörÂrfÇC²r¢ç&WÆ6RóâörÂrfwC²r¢ç&WÆ6Rò"örÂrgV÷C²r°§Ð¦gVæ7FöâW622°¢&WGW&â7G&ær2ç&WÆ6Rò"örÂrgV÷C²rç&WÆ6RòrörÂrb33²r°§Ð£Â÷67&Cà£Âö&öGà£ÂöFÖÃà
+  reader.readAsDataURL(file);
+}
+
+function removeCardImage(i) {
+  state.cards[i].imgUrl = '';
+  renderCardEditor();
+  render();
+}
+
+/* ==============================
+   BIND EVENTS
+============================== */
+function bindAll() {
+  document.querySelectorAll('.spread-btn').forEach(b =>
+    b.addEventListener('click', () => loadSpread(b.dataset.spread)));
+  document.getElementById('btnAddCard').addEventListener('click', addCard);
+  document.getElementById('btnPrint').addEventListener('click', () => window.print());
+  const mb = document.getElementById('btnPrintMobile');
+  if (mb) mb.addEventListener('click', () => window.print());
+  ['inpDate','inpReader','inpClient','inpTheme','inpOverall']
+    .forEach(id => document.getElementById(id).addEventListener('input', render));
+  window.addEventListener('resize', hideMobilePrint);
+}
+
+/* ==============================
+   RENDER REPORT
+============================== */
+function render() {
+  const client  = document.getElementById('inpClient').value.trim();
+  const reader  = document.getElementById('inpReader').value.trim();
+  const dateVal = document.getElementById('inpDate').value;
+  const theme   = document.getElementById('inpTheme').value.trim();
+  const overall = document.getElementById('inpOverall').value.trim();
+
+  const dateStr = dateVal
+    ? new Date(dateVal + 'T00:00:00').toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' })
+    : '';
+  const spreadName = SPREADS[state.spread]?.name || '';
+
+  const n = state.cards.length;
+  let gridCls = 'c1';
+  if      (n === 2) gridCls = 'c2';
+  else if (n === 3) gridCls = 'c3';
+  else if (n >= 4)  gridCls = 'c2l';
+
+  const cardsHtml = n === 0 ? '' : `
+    <div class="r-sec-title">カード</div>
+    <div class="r-cards ${gridCls}">
+      ${state.cards.map(card => `
+        <div class="r-card">
+          <div class="r-card-img-wrap">
+            ${card.imgUrl
+              ? `<img class="r-card-img" src="${card.imgUrl}" alt="${html(card.name)}">`
+              : `<div class="r-card-img-placeholder">🌙</div>`}
+          </div>
+          ${card.pos ? `<div class="r-card-pos">${html(card.pos)}</div>` : ''}
+          <div class="r-card-name">${card.name ? html(card.name) : '―'}</div>
+          <span class="r-card-ori ${card.ori==='正位置'?'ori-up':'ori-rev'}">
+            ${card.ori==='正位置' ? '☽ 正位置' : '☾ 逆位置'}
+          </span>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  const overallHtml = overall ? `
+    <div class="r-sec-title">鑑定結果</div>
+    <div class="r-overall">${html(overall).replace(/\n/g,'<br>')}</div>
+  ` : '';
+
+  const infoRows = [
+    { lbl:'鑑定日',     val: dateStr || '―' },
+    { lbl:'スプレッド', val: spreadName },
+    { lbl:'ご依頼者様', val: client ? html(client) + ' 様' : '―' },
+    ...(theme ? [{ lbl:'鑑定テーマ', val: html(theme), full: true }] : []),
+  ];
+  const infoHtml = infoRows.map(r =>
+    `<div class="ri-item${r.full?' full':''}">
+      <span class="ri-lbl">${r.lbl}</span>
+      <span class="ri-val">${r.val}</span>
+    </div>`
+  ).join('');
+
+  document.getElementById('reportFrame').innerHTML = `
+    <span class="corner-ornament tl">✦</span>
+    <span class="corner-ornament bl">✦</span>
+
+    <div class="report-head">
+      <span class="rh-moon">🌙</span>
+      <div class="rh-stars">✦ &nbsp; ✧ &nbsp; ★ &nbsp; ✧ &nbsp; ✦</div>
+      <div class="rh-title-en">Tarot Reading Report</div>
+      <div class="rh-title-ja">タロット鑑定書</div>
+      <hr class="rh-divider">
+    </div>
+
+    <div class="report-info">${infoHtml}</div>
+
+    ${cardsHtml}
+    ${overallHtml}
+
+    <div class="r-footer">
+      <div class="r-footer-stars">✦ &nbsp; 🌙 &nbsp; ✧ &nbsp; ⭐ &nbsp; ✦</div>
+      <div class="r-reader">
+        <div class="r-reader-lbl">占い師</div>
+        <div class="r-reader-name">${reader ? html(reader) : '―'}</div>
+      </div>
+    </div>
+  `;
+}
+
+/* ==============================
+   UTILS
+============================== */
+function html(s) {
+  return String(s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+function esc(s) {
+  return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+</script>
+</body>
+</html>

@@ -394,16 +394,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   min-height: 500px;
 }
 
-.report-watermark {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 16em;
-  opacity: 0.025;
-  pointer-events: none;
-  user-select: none;
-  line-height: 1;
-}
 .report-blob-1 {
   position: absolute; top: -40px; right: -40px;
   width: 200px; height: 200px; border-radius: 50%;
@@ -836,8 +826,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     <p class="preview-label">✦ &nbsp; プレビュー（A4縦向き）&nbsp; ✦</p>
 
     <div class="report" id="report">
-      <div class="report-watermark">🌙</div>
-      <div class="report-blob-1"></div>
+            <div class="report-blob-1"></div>
       <div class="report-blob-2"></div>
       <div class="report-blob-3"></div>
       <div class="report-frame" id="reportFrame">

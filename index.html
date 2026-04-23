@@ -453,8 +453,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .rh-title-ja {
   font-size: 1.6em; font-weight: 600; letter-spacing: 8px;
-  background: linear-gradient(135deg, var(--text-dark) 30%, var(--purple) 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  color: #4a2880;
 }
 .rh-divider {
   border: none; height: 1px; margin: 14px 0 0;
@@ -962,12 +961,15 @@ async function saveAsImage() {
   btn.disabled = true;
   try {
     const reportEl = document.getElementById('report');
+    const origMinH = reportEl.style.minHeight;
+    reportEl.style.minHeight = '0';
     const blobs = reportEl.querySelectorAll('.report-blob-1,.report-blob-2,.report-blob-3');
     blobs.forEach(b => b.style.display = 'none');
     const canvas = await html2canvas(reportEl, {
       scale: 2, useCORS: true,
       backgroundColor: '#faf6ff', logging: false
     });
+    reportEl.style.minHeight = origMinH;
     blobs.forEach(b => b.style.display = '');
     const dataUrl = canvas.toDataURL('image/png');
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);

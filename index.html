@@ -199,7 +199,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /* Spread selector */
 .spread-selector {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 7px;
   margin-bottom: 18px;
 }
@@ -506,13 +506,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .r-card-pos {
   font-family: var(--font-ui);
   font-size: 0.55em; letter-spacing: 2px; color: var(--purple); opacity: 0.6;
-  margin-bottom: 4px; text-transform: uppercase;
+  margin-bottom: 4px; text-transform: uppercase; text-align: center;
 }
-.r-card-name { font-size: 0.9em; font-weight: 600; color: var(--text-dark); margin-bottom: 5px; line-height: 1.35; }
+.r-card-name { font-size: 0.9em; font-weight: 600; color: var(--text-dark); margin-bottom: 5px; line-height: 1.35; text-align: center; }
 .r-card-ori {
-  display: inline-block; font-size: 0.58em; padding: 2px 9px;
+  display: block; font-size: 0.58em; padding: 2px 9px;
   border-radius: 20px; margin-bottom: 8px; letter-spacing: 1px;
-  font-family: var(--font-ui);
+  font-family: var(--font-ui); text-align: center;
 }
 .ori-up  { background: rgba(80,180,120,0.12); border: 1px solid rgba(80,180,120,0.28); color: #2e7052; }
 .ori-rev { background: rgba(190,80,120,0.1);  border: 1px solid rgba(190,80,120,0.25); color: #7a2a48; }
@@ -673,10 +673,33 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background: linear-gradient(155deg, #faf6ff 0%, #f2eaff 25%, #e8f2ff 60%, #f4eeff 100%) !important;
   }
 
-  .report-frame { padding: 8mm 7mm !important; }
+  .report-frame { padding: 5mm 5mm !important; }
 
-  /* カードが途中で切れないように */
-  .r-card { break-inside: avoid; page-break-inside: avoid; }
+  /* ヘッダー縮小 */
+  .report-head { margin-bottom: 8px !important; }
+  .rh-moon { font-size: 1.6em !important; margin-bottom: 3px !important; }
+  .rh-stars { font-size: 0.58em !important; margin-bottom: 5px !important; }
+  .rh-title-en { font-size: 0.6em !important; margin-bottom: 2px !important; }
+  .rh-title-ja { font-size: 1.15em !important; letter-spacing: 6px !important; }
+  .rh-divider { margin: 7px 0 0 !important; }
+
+  /* インフォグリッド縮小 */
+  .report-info { margin-bottom: 10px !important; padding: 8px 12px !important; gap: 5px 14px !important; }
+
+  /* セクションタイトル */
+  .r-sec-title { margin: 10px 0 7px !important; }
+
+  /* カードボックス */
+  .r-card { padding: 8px 10px !important; break-inside: avoid; page-break-inside: avoid; }
+  .r-card-img-wrap { margin-bottom: 6px !important; }
+  .r-card-img { width: 70px !important; height: 105px !important; }
+  .r-card-img-placeholder { width: 70px !important; height: 105px !important; font-size: 1.6em !important; }
+
+  /* 鑑定結果 */
+  .r-overall { padding: 10px 14px !important; line-height: 1.75 !important; }
+
+  /* フッター */
+  .r-footer { margin-top: 10px !important; padding-top: 8px !important; }
 
   /* カードグリッドも崩れないように */
   .r-cards { break-inside: avoid; }
@@ -797,12 +820,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
     <div class="sec-header">スプレッド</div>
     <div class="spread-selector">
-      <button class="spread-btn" data-spread="one">ワンオラクル<small>1枚</small></button>
-      <button class="spread-btn active" data-spread="three">スリーカード<small>3枚</small></button>
-      <button class="spread-btn" data-spread="celtic">ケルト十字<small>10枚</small></button>
-      <button class="spread-btn" data-spread="hexa">ヘキサグラム<small>7枚</small></button>
-      <button class="spread-btn" data-spread="horse">馬蹄形<small>7枚</small></button>
-      <button class="spread-btn" data-spread="custom">カスタム<small>自由</small></button>
+      <button class="spread-btn active" data-spread="one">ワンオラクル<small>1枚</small></button>
+      <button class="spread-btn" data-spread="three">スリーカード<small>3枚</small></button>
     </div>
 
     <div class="sec-header">カード</div>
@@ -899,19 +918,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
    SPREAD PRESETS
 ============================== */
 const SPREADS = {
-  one:    { name:'ワンオラクル',   pos:['メッセージ'] },
-  three:  { name:'スリーカード',   pos:['過去','現在','未来'] },
-  celtic: { name:'ケルト十字',     pos:['現状','交差（障害）','潜在意識の基盤','過去の影響','可能性の頂点','近い未来','自分の立場','周囲の状況','希望と恐れ','最終結果'] },
-  hexa:   { name:'ヘキサグラム',   pos:['過去','現在','未来','深層心理','周囲の状況','アドバイス','最終結果'] },
-  horse:  { name:'馬蹄形',         pos:['過去','現在の状況','未来の可能性','潜在意識','周囲の意見','アドバイス','最終的な結果'] },
-  custom: { name:'カスタム',       pos:[] },
+  one:   { name:'ワンオラクル', pos:[''] },
+  three: { name:'スリーカード', pos:['過去','現在','未来'] },
 };
 
 /* ==============================
    STATE
 ============================== */
 let state = {
-  spread: 'three',
+  spread: 'one',
   cards:  [],
 };
 
@@ -921,7 +936,7 @@ let state = {
 document.addEventListener('DOMContentLoaded', () => {
   createStars();
   setToday();
-  loadSpread('three');
+  loadSpread('one');
   bindAll();
   render();
   hideMobilePrint();

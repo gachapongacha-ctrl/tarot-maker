@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🌙 タロット鑑定書メーカー</title>
 <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Zen+Maru+Gothic:wght@400;500;700&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <style>
 /* ==============================
    RESET & VARIABLES
@@ -862,9 +863,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 </main>
 
-<!-- モバイル用固定印刷ボタン -->
+<!-- モバイル用固定ボタン -->
 <div class="btn-print-wrap" id="mobilePrintWrap">
-  <button class="btn-print" id="btnPrintMobile">🌙 &nbsp; PDF で保存する</button>
+  <button class="btn-print" id="btnSaveImage">📷 &nbsp; 画像で保存する</button>
+  <p class="btn-hint" style="display:block;margin-top:5px;">画像が開いたら「長押し→写真に保存」してください</p>
 </div>
 
 <!-- カード名 datalist -->
@@ -946,10 +948,44 @@ document.addEventListener('DOMContentLoaded', () => {
    MOBILE PRINT BUTTON
 ============================== */
 function hideMobilePrint() {
-  // モバイル以外では固定印刷ボタンを非表示
+  // モバイル以外では固定ボタンを非表示
   if (window.innerWidth > 800) {
     const w = document.getElementById('mobilePrintWrap');
     if (w) w.style.display = 'none';
+  }
+}
+
+async function saveAsImage() {
+  const btn = document.getElementById('btnSaveImage');
+  const original = btn.innerHTML;
+  btn.innerHTML = '⏳ &nbsp; 生成中...';
+  btn.disabled = true;
+  try {
+    const reportEl = document.getElementById('report');
+    const blobs = reportEl.querySelectorAll('.report-blob-1,.report-blob-2,.report-blob-3');
+    blobs.forEach(b => b.style.display = 'none');
+    const canvas = await html2canvas(reportEl, {
+      scale: 2, useCORS: true,
+      backgroundColor: '#faf6ff', logging: false
+    });
+    blobs.forEach(b => b.style.display = '');
+    const dataUrl = canvas.toDataURL('image/png');
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    if (isIOS) {
+      const win = window.open('', '_blank');
+      win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><title>タロット鑑定書</title><style>body{margin:0;background:#333;display:flex;flex-direction:column;align-items:center;padding:10px;}img{max-width:100%;border-radius:8px;}p{color:white;font-family:sans-serif;font-size:14px;margin-top:10px;text-align:center;}</style></head><body><img src="' + dataUrl + '"><p>画像を長押しして「写真に保存」してください</p></body></html>');
+      win.document.close();
+    } else {
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = 'タロット鑑定書.png';
+      a.click();
+    }
+  } catch(e) {
+    alert('画像の生成に失敗しました。もう一度お試しください。');
+  } finally {
+    btn.innerHTML = original;
+    btn.disabled = false;
   }
 }
 
@@ -1093,8 +1129,8 @@ function bindAll() {
     b.addEventListener('click', () => loadSpread(b.dataset.spread)));
   document.getElementById('btnAddCard').addEventListener('click', addCard);
   document.getElementById('btnPrint').addEventListener('click', () => window.print());
-  const mb = document.getElementById('btnPrintMobile');
-  if (mb) mb.addEventListener('click', () => window.print());
+  const mb = document.getElementById('btnSaveImage');
+  if (mb) mb.addEventListener('click', saveAsImage);
   ['inpDate','inpReader','inpClient','inpTheme','inpOverall']
     .forEach(id => document.getElementById(id).addEventListener('input', render));
   window.addEventListener('resize', hideMobilePrint);

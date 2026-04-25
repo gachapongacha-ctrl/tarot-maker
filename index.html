@@ -31,7 +31,7 @@
   --text-mid:      #4a3a6f;
   --text-light:    #7a6a9f;
   --white:         #ffffff;
-  --font-main:     'Klee One', 'Hiragino Mincho ProN', serif;
+  --font-main:     'Klee One', 'Hiragino Mincho ProN', 'Yu Mincho', 'YuMincho', serif;
   --font-ui:       'Zen Maru Gothic', 'Hiragino Kaku Gothic ProN', sans-serif;
   --font-deco:     'Cinzel', serif;
 }
@@ -457,7 +457,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .rh-divider {
   border: none; height: 1px; margin: 14px 0 0;
-  background: linear-gradient(90deg, transparent, rgba(138,104,192,0.3), rgba(106,172,204,0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(196,160,64,0.4), rgba(138,104,192,0.25), rgba(196,160,64,0.4), transparent);
 }
 
 /* Info grid */
@@ -472,9 +472,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .ri-item.full { grid-column: 1 / -1; }
 .ri-lbl {
   font-family: var(--font-ui);
-  font-size: 0.57em; letter-spacing: 2.5px; color: var(--purple); opacity: 0.65; text-transform: uppercase;
+  font-size: 0.57em; letter-spacing: 2.5px; color: var(--purple); opacity: 0.42; text-transform: uppercase; font-family: var(--font-ui);
 }
-.ri-val { font-size: 0.82em; color: var(--text-dark); font-weight: 600; line-height: 1.4; }
+.ri-val { font-size: 0.88em; color: var(--text-dark); font-weight: 700; line-height: 1.45; }
 
 /* Theme box (独立枠) */
 .report-theme {
@@ -485,7 +485,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   padding: 10px 14px;
   background: rgba(138,104,192,0.045);
   border-radius: 8px;
-  border-left: 3px solid rgba(138,104,192,0.28);
+  border-left: 3px solid rgba(196,160,64,0.45);
 }
 
 /* Section title in report */
@@ -499,8 +499,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .r-sec-title::before, .r-sec-title::after {
   content: ''; flex: 1; height: 1px;
 }
-.r-sec-title::before { background: linear-gradient(90deg, transparent, rgba(138,104,192,0.3)); }
-.r-sec-title::after  { background: linear-gradient(90deg, rgba(138,104,192,0.3), transparent); }
+.r-sec-title::before { background: linear-gradient(90deg, transparent, rgba(196,160,64,0.38)); }
+.r-sec-title::after  { background: linear-gradient(90deg, rgba(196,160,64,0.38), transparent); }
 
 /* Cards grid */
 .r-cards { display: grid; gap: 12px; }
@@ -521,7 +521,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-size: 0.55em; letter-spacing: 2px; color: var(--purple); opacity: 0.6;
   margin-bottom: 4px; text-transform: uppercase;
 }
-.r-card-name { font-size: 0.9em; font-weight: 600; color: var(--text-dark); margin-bottom: 5px; line-height: 1.35; }
+.r-card-name { font-size: 0.95em; font-weight: 700; color: #3a2468; margin-bottom: 5px; line-height: 1.35; }
 .r-card-ori {
   display: inline-block; font-size: 0.58em; padding: 2px 9px;
   border-radius: 20px; margin-bottom: 8px; letter-spacing: 1px;
@@ -564,11 +564,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   gap: 6px;
 }
 .r-card-key {
-  font-size: 0.76em;
-  color: var(--purple);
-  opacity: 0.82;
-  font-style: italic;
-  line-height: 1.5;
+  display: inline-block;
+  background: rgba(196,160,64,0.1);
+  border: 1px solid rgba(196,160,64,0.38);
+  color: #7a5612;
+  font-size: 0.68em;
+  padding: 3px 11px;
+  border-radius: 20px;
+  font-style: normal;
+  font-family: var(--font-ui);
+  letter-spacing: 0.8px;
+  margin-top: 3px;
+  line-height: 1.6;
 }
 .img-upload-area { margin-bottom: 4px; }
 .img-upload-label {
@@ -623,16 +630,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .r-overall {
   background: rgba(138,104,192,0.055);
   border: 1px solid rgba(138,104,192,0.11);
-  border-left: 3px solid rgba(138,104,192,0.35);
+  border-left: 3px solid rgba(196,160,64,0.6);
   border-radius: 0 10px 10px 0;
-  padding: 18px 20px;
-  font-size: 0.93em; color: var(--text-mid); line-height: 2.0;
+  padding: 18px 22px;
+  font-size: 1.02em; color: var(--text-dark); line-height: 1.85;
   min-height: 120px;
+  font-family: var(--font-main);
 }
 
 /* Footer */
 .r-footer {
-  margin-top: 22px; display: flex; align-items: flex-end;
+  margin-top: 34px; display: flex; align-items: flex-end;
   justify-content: space-between;
   padding-top: 14px; border-top: 1px solid rgba(138,104,192,0.13);
 }

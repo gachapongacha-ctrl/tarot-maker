@@ -514,29 +514,28 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border: 1px solid rgba(138,104,192,0.13);
   border-radius: 10px; padding: 13px 14px;
   break-inside: avoid;
+  display: flex; flex-direction: row; gap: 12px; align-items: flex-start;
 }
 .r-card-pos {
   font-family: var(--font-ui);
   font-size: 0.55em; letter-spacing: 2px; color: var(--purple); opacity: 0.6;
-  margin-bottom: 4px; text-transform: uppercase; text-align: center;
+  margin-bottom: 4px; text-transform: uppercase;
 }
-.r-card-name { font-size: 0.9em; font-weight: 600; color: var(--text-dark); margin-bottom: 5px; line-height: 1.35; text-align: center; }
+.r-card-name { font-size: 0.9em; font-weight: 600; color: var(--text-dark); margin-bottom: 5px; line-height: 1.35; }
 .r-card-ori {
-  display: block; font-size: 0.58em; padding: 2px 9px;
+  display: inline-block; font-size: 0.58em; padding: 2px 9px;
   border-radius: 20px; margin-bottom: 8px; letter-spacing: 1px;
-  font-family: var(--font-ui); text-align: center;
+  font-family: var(--font-ui);
 }
 .ori-up  { background: rgba(80,180,120,0.12); border: 1px solid rgba(80,180,120,0.28); color: #2e7052; }
 .ori-rev { background: rgba(190,80,120,0.1);  border: 1px solid rgba(190,80,120,0.25); color: #7a2a48; }
 /* カード画像（鑑定書内） */
 .r-card-img-wrap {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
+  flex-shrink: 0;
 }
 .r-card-img {
-  width: 88px;
-  height: 132px;   /* タロットカード比率 2:3 */
+  width: 100px;
+  height: 150px;   /* タロットカード比率 2:3 */
   object-fit: cover;
   object-position: center top;
   border-radius: 8px;
@@ -544,8 +543,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border: 1px solid rgba(192,164,224,0.3);
 }
 .r-card-img-placeholder {
-  width: 88px;
-  height: 132px;
+  width: 100px;
+  height: 150px;
   background: linear-gradient(160deg, rgba(192,164,224,0.12), rgba(164,207,224,0.12));
   border-radius: 8px;
   display: flex;
@@ -557,6 +556,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 /* 画像アップロード（エディタ内） */
+.r-card-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.r-card-key {
+  font-size: 0.76em;
+  color: var(--purple);
+  opacity: 0.82;
+  font-style: italic;
+  line-height: 1.5;
+}
 .img-upload-area { margin-bottom: 4px; }
 .img-upload-label {
   display: flex;
@@ -612,8 +625,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border: 1px solid rgba(138,104,192,0.11);
   border-left: 3px solid rgba(138,104,192,0.35);
   border-radius: 0 10px 10px 0;
-  padding: 15px 18px;
-  font-size: 0.82em; color: var(--text-mid); line-height: 1.95;
+  padding: 18px 20px;
+  font-size: 0.93em; color: var(--text-mid); line-height: 2.0;
+  min-height: 120px;
 }
 
 /* Footer */
@@ -844,7 +858,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
     <div class="sec-header">鑑定結果</div>
     <div class="form-group">
-      <textarea id="inpOverall" placeholder="鑑定全体のメッセージ・アドバイスをご記入ください..." rows="5"></textarea>
+      <textarea id="inpOverall" placeholder="鑑定全体のメッセージ・アドバイスをご記入ください..." rows="8"></textarea>
     </div>
 
     <div class="editor-print-area">
@@ -999,8 +1013,8 @@ async function saveAsImage() {
     // カード画像を小さく
     const cardImgs = reportEl.querySelectorAll('.r-card-img');
     const cardPH = reportEl.querySelectorAll('.r-card-img-placeholder');
-    cardImgs.forEach(img => { img.style.width = '56px'; img.style.height = '84px'; });
-    cardPH.forEach(p => { p.style.width = '56px'; p.style.height = '84px'; p.style.fontSize = '1.4em'; });
+    cardImgs.forEach(img => { img.style.width = '70px'; img.style.height = '105px'; });
+    cardPH.forEach(p => { p.style.width = '70px'; p.style.height = '105px'; p.style.fontSize = '1.6em'; });
 
     // グリッド・マージン削減
     const rCards = reportEl.querySelector('.r-cards');
@@ -1095,7 +1109,7 @@ function loadSpread(key) {
   state.spread = key;
   document.querySelectorAll('.spread-btn').forEach(b =>
     b.classList.toggle('active', b.dataset.spread === key));
-  state.cards = SPREADS[key].pos.map(p => ({ pos:p, name:'', ori:'正位置', imgUrl:'' }));
+  state.cards = SPREADS[key].pos.map(p => ({ pos:p, name:'', ori:'正位置', imgUrl:'', key:'' }));
   renderCardEditor();
   render();
 }
@@ -1148,6 +1162,10 @@ function renderCardEditor() {
           <button class="btn-remove-img" onclick="removeCardImage(${i})">✕ 削除</button>
         </div>` : ''}
       </div>
+      <div class="form-group">
+        <label>キーワード</label>
+        <input type="text" placeholder="例：変容、直感" value="${esc(card.key||'')}" oninput="state.cards[${i}].key=this.value;render()">
+      </div>
     `;
     c.appendChild(el);
   });
@@ -1167,7 +1185,7 @@ function removeCard(i) {
 }
 
 function addCard() {
-  state.cards.push({ pos:'', name:'', ori:'正位置', imgUrl:'' });
+  state.cards.push({ pos:'', name:'', ori:'正位置', imgUrl:'', key:'' });
   renderCardEditor();
   render();
 }
@@ -1236,11 +1254,14 @@ function render() {
               ? `<img class="r-card-img" src="${card.imgUrl}" alt="${html(card.name)}">`
               : `<div class="r-card-img-placeholder">🌙</div>`}
           </div>
-          ${card.pos ? `<div class="r-card-pos">${html(card.pos)}</div>` : ''}
-          <div class="r-card-name">${card.name ? html(card.name) : '―'}</div>
-          <span class="r-card-ori ${card.ori==='正位置'?'ori-up':'ori-rev'}">
-            ${card.ori==='正位置' ? '☽ 正位置' : '☾ 逆位置'}
-          </span>
+          <div class="r-card-info">
+            ${card.pos ? `<div class="r-card-pos">${html(card.pos)}</div>` : ''}
+            <div class="r-card-name">${card.name ? html(card.name) : '―'}</div>
+            <span class="r-card-ori ${card.ori==='正位置'?'ori-up':'ori-rev'}">
+              ${card.ori==='正位置' ? '☽ 正位置' : '☾ 逆位置'}
+            </span>
+            ${card.key ? `<div class="r-card-key">${html(card.key)}</div>` : ''}
+          </div>
         </div>
       `).join('')}
     </div>
@@ -1253,8 +1274,7 @@ function render() {
 
   const infoRows = [
     { lbl:'鑑定日',     val: dateStr || '―' },
-    { lbl:'スプレッド', val: spreadName },
-    { lbl:'ご依頼者様', val: client ? html(client) + ' 様' : '―', full: true },
+    { lbl:'ご依頼者様', val: client ? html(client) + ' 様' : '―' },
   ];
   const themeHtml = theme ? `
     <div class="report-theme">

@@ -970,29 +970,82 @@ function hideMobilePrint() {
 async function saveAsImage() {
   const btn = document.getElementById('btnSaveImage');
   const original = btn.innerHTML;
-  btn.innerHTML = '⏳ &nbsp; 生成中...';
+  btn.innerHTML = '⦿ &nbsp; 生成中...';
   btn.disabled = true;
   try {
     const reportEl = document.getElementById('report');
     const frameEl = document.getElementById('reportFrame');
+
+    // キャプチャ用: 幅を広げ、縦をコンパクトに
     reportEl.style.setProperty('min-height', '0', 'important');
-    reportEl.style.padding = '22px 20px 20px';
-    frameEl.style.padding = '16px 14px 14px';
+    reportEl.style.setProperty('max-width', 'none', 'important');
+    reportEl.style.width = '480px';
+    reportEl.style.padding = '18px 20px 16px';
+    frameEl.style.padding = '14px 14px 12px';
+
     const blobs = reportEl.querySelectorAll('.report-blob-1,.report-blob-2,.report-blob-3');
     blobs.forEach(b => b.style.display = 'none');
+
+    // ヘッダーをコンパクトに
+    const rhMoon = reportEl.querySelector('.rh-moon');
+    const rhHead = reportEl.querySelector('.report-head');
+    const rhStars = reportEl.querySelector('.rh-stars');
+    const rhTitleEn = reportEl.querySelector('.rh-title-en');
+    if (rhMoon) { rhMoon.style.fontSize = '1.6em'; rhMoon.style.marginBottom = '3px'; }
+    if (rhHead) rhHead.style.marginBottom = '10px';
+    if (rhStars) rhStars.style.marginBottom = '5px';
+    if (rhTitleEn) rhTitleEn.style.marginBottom = '2px';
+
+    // カード画像を小さく
+    const cardImgs = reportEl.querySelectorAll('.r-card-img');
+    const cardPH = reportEl.querySelectorAll('.r-card-img-placeholder');
+    cardImgs.forEach(img => { img.style.width = '56px'; img.style.height = '84px'; });
+    cardPH.forEach(p => { p.style.width = '56px'; p.style.height = '84px'; p.style.fontSize = '1.4em'; });
+
+    // グリッド・マージン削減
+    const rCards = reportEl.querySelector('.r-cards');
+    const infoBox = reportEl.querySelector('.report-info');
+    const themeBox = reportEl.querySelector('.report-theme');
+    const secTitle = reportEl.querySelector('.r-sec-title');
+    const overall = reportEl.querySelector('.r-overall');
+    const footer = reportEl.querySelector('.r-footer');
+    if (rCards) rCards.style.gap = '8px';
+    if (infoBox) infoBox.style.marginBottom = '8px';
+    if (themeBox) themeBox.style.marginBottom = '8px';
+    if (secTitle) { secTitle.style.margin = '10px 0 8px'; }
+    if (overall) { overall.style.padding = '10px 14px'; overall.style.lineHeight = '1.7'; }
+    if (footer) footer.style.marginTop = '10px';
+
     const canvas = await html2canvas(reportEl, {
       scale: 2, useCORS: true,
       backgroundColor: '#faf6ff', logging: false
     });
+
+    // スタイル復元
     reportEl.style.removeProperty('min-height');
+    reportEl.style.removeProperty('max-width');
+    reportEl.style.width = '';
     reportEl.style.padding = '';
     frameEl.style.padding = '';
     blobs.forEach(b => b.style.display = '');
+    if (rhMoon) { rhMoon.style.fontSize = ''; rhMoon.style.marginBottom = ''; }
+    if (rhHead) rhHead.style.marginBottom = '';
+    if (rhStars) rhStars.style.marginBottom = '';
+    if (rhTitleEn) rhTitleEn.style.marginBottom = '';
+    cardImgs.forEach(img => { img.style.width = ''; img.style.height = ''; });
+    cardPH.forEach(p => { p.style.width = ''; p.style.height = ''; p.style.fontSize = ''; });
+    if (rCards) rCards.style.gap = '';
+    if (infoBox) infoBox.style.marginBottom = '';
+    if (themeBox) themeBox.style.marginBottom = '';
+    if (secTitle) secTitle.style.margin = '';
+    if (overall) { overall.style.padding = ''; overall.style.lineHeight = ''; }
+    if (footer) footer.style.marginTop = '';
+
     const dataUrl = canvas.toDataURL('image/png');
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     if (isIOS) {
       const win = window.open('', '_blank');
-      win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><title>タロット鑑定書</title><style>body{margin:0;background:#333;display:flex;flex-direction:column;align-items:center;padding:10px;}img{max-width:100%;border-radius:8px;}p{color:white;font-family:sans-serif;font-size:14px;margin-top:10px;text-align:center;}</style></head><body><img src="' + dataUrl + '"><p>画像を長押しして「写真に保存」してください</p></body></html>');
+      win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>タロット鑑定書</title><style>body{margin:0;background:#0a1535;display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:20px;box-sizing:border-box}img{max-width:100%;height:auto;border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,0.5)}p{color:rgba(255,255,255,0.55);font-family:sans-serif;font-size:13px;text-align:center;margin-top:14px}</style></head><body><img src="' + dataUrl + '"><p>画像を長押しして「写真に保存」してください</p></body></html>');
       win.document.close();
     } else {
       const a = document.createElement('a');
@@ -1008,9 +1061,6 @@ async function saveAsImage() {
   }
 }
 
-/* ==============================
-   STARS
-============================== */
 function createStars() {
   const bg = document.getElementById('starsBg');
   for (let i = 0; i < 90; i++) {

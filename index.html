@@ -476,6 +476,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .ri-val { font-size: 0.82em; color: var(--text-dark); font-weight: 600; line-height: 1.4; }
 
+/* Theme box (独立枠) */
+.report-theme {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  background: rgba(138,104,192,0.045);
+  border-radius: 8px;
+  border-left: 3px solid rgba(138,104,192,0.28);
+}
+
 /* Section title in report */
 .r-sec-title {
   font-family: var(--font-ui);
@@ -937,6 +949,7 @@ let state = {
 document.addEventListener('DOMContentLoaded', () => {
   createStars();
   setToday();
+  document.getElementById('inpReader').value = 'がちゃぽん';
   loadSpread('one');
   bindAll();
   render();
@@ -961,15 +974,19 @@ async function saveAsImage() {
   btn.disabled = true;
   try {
     const reportEl = document.getElementById('report');
-    const origMinH = reportEl.style.minHeight;
-    reportEl.style.minHeight = '0';
+    const frameEl = document.getElementById('reportFrame');
+    reportEl.style.setProperty('min-height', '0', 'important');
+    reportEl.style.padding = '22px 20px 20px';
+    frameEl.style.padding = '16px 14px 14px';
     const blobs = reportEl.querySelectorAll('.report-blob-1,.report-blob-2,.report-blob-3');
     blobs.forEach(b => b.style.display = 'none');
     const canvas = await html2canvas(reportEl, {
       scale: 2, useCORS: true,
       backgroundColor: '#faf6ff', logging: false
     });
-    reportEl.style.minHeight = origMinH;
+    reportEl.style.removeProperty('min-height');
+    reportEl.style.padding = '';
+    frameEl.style.padding = '';
     blobs.forEach(b => b.style.display = '');
     const dataUrl = canvas.toDataURL('image/png');
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -1187,9 +1204,13 @@ function render() {
   const infoRows = [
     { lbl:'鑑定日',     val: dateStr || '―' },
     { lbl:'スプレッド', val: spreadName },
-    { lbl:'ご依頼者様', val: client ? html(client) + ' 様' : '―' },
-    ...(theme ? [{ lbl:'鑑定テーマ', val: html(theme), full: true }] : []),
+    { lbl:'ご依頼者様', val: client ? html(client) + ' 様' : '―', full: true },
   ];
+  const themeHtml = theme ? `
+    <div class="report-theme">
+      <span class="ri-lbl">鑑定テーマ</span>
+      <span class="ri-val">${html(theme)}</span>
+    </div>` : '';
   const infoHtml = infoRows.map(r =>
     `<div class="ri-item${r.full?' full':''}">
       <span class="ri-lbl">${r.lbl}</span>
@@ -1210,6 +1231,7 @@ function render() {
     </div>
 
     <div class="report-info">${infoHtml}</div>
+    ${themeHtml}
 
     ${cardsHtml}
     ${overallHtml}

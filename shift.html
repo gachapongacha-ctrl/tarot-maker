@@ -3,27 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>📅 シフト管理 & 給料計算</title>
+<title>シフト & お給料</title>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg:          #f4f6fb;
-  --card:        #ffffff;
-  --primary:     #5b7cfa;
-  --primary-dark:#3f5ee0;
-  --primary-pale:#e8edff;
-  --accent:      #ff8fab;
-  --accent-pale: #ffe9f0;
-  --green:       #2eb086;
-  --green-pale:  #e3f6ef;
-  --text:        #2b3147;
-  --text-mid:    #5a617c;
-  --text-light:  #9aa1b9;
-  --line:        #e3e7f2;
-  --danger:      #e85d75;
-  --radius:      16px;
+  /* ---- greige palette ---- */
+  --bg:          #f3efe9;
+  --card:        #fbf9f6;
+  --taupe:       #a8998a;
+  --taupe-dark:  #6f6253;
+  --taupe-pale:  #e9e2d8;
+  --rose:        #c6a497;
+  --rose-pale:   #f1e6e0;
+  --rose-text:   #a87a6b;
+  --sage:        #97a589;
+  --sage-deep:   #76836a;
+  --text:        #4c453c;
+  --text-mid:    #8a8073;
+  --text-light:  #b4aa9c;
+  --line:        #e7ded3;
+  --sat:         #8795a3;
+  --danger:      #bd8175;
+  --radius:      18px;
+  --shadow:      0 4px 16px rgba(124,108,90,0.10);
   --font:        'Zen Maru Gothic', 'Hiragino Kaku Gothic ProN', sans-serif;
 }
 
@@ -34,25 +38,28 @@ body {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
-  padding-bottom: 90px;
+  padding-bottom: 92px;
+  letter-spacing: 0.02em;
 }
 
-.container { max-width: 480px; margin: 0 auto; padding: 0 14px; }
+.container { max-width: 480px; margin: 0 auto; padding: 0 16px; }
 
 /* ===== HEADER ===== */
 .app-header {
   text-align: center;
-  padding: 22px 16px 14px;
+  padding: 26px 16px 12px;
 }
 .app-header h1 {
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.14em;
+  color: var(--taupe-dark);
 }
 .app-header p {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-light);
-  margin-top: 2px;
+  margin-top: 4px;
+  letter-spacing: 0.08em;
 }
 
 /* ===== TAB BAR ===== */
@@ -63,90 +70,94 @@ body {
   border-top: 1px solid var(--line);
   display: flex;
   justify-content: center;
-  gap: 8px;
-  padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+  gap: 6px;
+  padding: 8px 14px calc(8px + env(safe-area-inset-bottom));
   z-index: 50;
 }
 .tabbar button {
   flex: 1;
-  max-width: 220px;
+  max-width: 150px;
   border: none;
   background: transparent;
   font-family: var(--font);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--text-light);
-  padding: 10px 6px;
-  border-radius: 12px;
+  padding: 9px 6px;
+  border-radius: 14px;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.18s;
+  letter-spacing: 0.04em;
 }
-.tabbar button .ico { display: block; font-size: 20px; margin-bottom: 2px; }
+.tabbar button .ico { display: block; font-size: 19px; margin-bottom: 3px; filter: grayscale(0.25); }
 .tabbar button.active {
-  color: var(--primary-dark);
-  background: var(--primary-pale);
+  color: var(--taupe-dark);
+  background: var(--taupe-pale);
 }
 
 .screen { display: none; }
-.screen.active { display: block; }
+.screen.active { display: block; animation: fade 0.2s ease; }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 
-/* ===== MONTH NAV ===== */
-.month-nav {
+/* ===== MONTH / YEAR NAV ===== */
+.period-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: var(--card);
   border-radius: var(--radius);
-  padding: 10px 8px;
-  margin-bottom: 12px;
-  box-shadow: 0 2px 8px rgba(43,49,71,0.06);
+  padding: 10px 10px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
 }
-.month-nav h2 { font-size: 17px; font-weight: 700; }
-.month-nav button {
+.period-nav h2 { font-size: 16px; font-weight: 700; letter-spacing: 0.06em; }
+.period-nav button {
   border: none;
-  background: var(--primary-pale);
-  color: var(--primary-dark);
+  background: var(--taupe-pale);
+  color: var(--taupe-dark);
   font-family: var(--font);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   width: 38px; height: 38px;
   border-radius: 50%;
   cursor: pointer;
+  transition: transform 0.1s;
 }
-.month-nav button:active { transform: scale(0.92); }
+.period-nav button:active { transform: scale(0.9); }
 
 /* ===== CALENDAR ===== */
 .calendar {
   background: var(--card);
   border-radius: var(--radius);
-  padding: 10px;
-  box-shadow: 0 2px 8px rgba(43,49,71,0.06);
+  padding: 12px;
+  box-shadow: var(--shadow);
 }
 .cal-week {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
-  margin-bottom: 6px;
+  gap: 5px;
+  margin-bottom: 7px;
 }
 .cal-week span {
   text-align: center;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   color: var(--text-mid);
+  letter-spacing: 0;
 }
 .cal-week span:first-child { color: var(--danger); }
-.cal-week span:last-child  { color: var(--primary); }
+.cal-week span:last-child  { color: var(--sat); }
 .cal-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
+  gap: 5px;
 }
 .cal-day {
   min-height: 58px;
-  border-radius: 10px;
-  border: 1px solid transparent;
-  background: #fafbfe;
-  padding: 4px 2px;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+  background: #f6f2ec;
+  padding: 5px 2px;
   text-align: center;
   cursor: pointer;
   display: flex;
@@ -155,17 +166,17 @@ body {
   gap: 2px;
   transition: background 0.15s;
 }
-.cal-day:active { background: var(--primary-pale); }
+.cal-day:active { background: var(--taupe-pale); }
 .cal-day.empty { background: transparent; cursor: default; }
-.cal-day .num { font-size: 13px; font-weight: 500; line-height: 1.2; }
+.cal-day .num { font-size: 13px; font-weight: 500; line-height: 1.2; color: var(--text); }
 .cal-day.sun .num { color: var(--danger); }
-.cal-day.sat .num { color: var(--primary); }
-.cal-day.today { border-color: var(--primary); }
-.cal-day.has-shift { background: var(--accent-pale); }
+.cal-day.sat .num { color: var(--sat); }
+.cal-day.today { border-color: var(--taupe); }
+.cal-day.has-shift { background: var(--rose-pale); }
 .cal-day .shift-time {
   font-size: 9px;
   font-weight: 700;
-  color: #d6336c;
+  color: var(--rose-text);
   line-height: 1.25;
   word-break: keep-all;
 }
@@ -174,28 +185,28 @@ body {
   color: var(--text-mid);
 }
 
-/* ===== MONTH SUMMARY MINI ===== */
+/* ===== MINI SUMMARY ===== */
 .mini-summary {
   display: flex;
-  gap: 8px;
-  margin-top: 12px;
+  gap: 10px;
+  margin-top: 14px;
 }
 .mini-summary .chip {
   flex: 1;
   background: var(--card);
-  border-radius: 12px;
-  padding: 10px 8px;
+  border-radius: 14px;
+  padding: 12px 8px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(43,49,71,0.06);
+  box-shadow: var(--shadow);
 }
-.mini-summary .chip .label { font-size: 10px; color: var(--text-light); }
-.mini-summary .chip .value { font-size: 16px; font-weight: 700; color: var(--primary-dark); }
+.mini-summary .chip .label { font-size: 10px; color: var(--text-light); letter-spacing: 0.04em; }
+.mini-summary .chip .value { font-size: 16px; font-weight: 700; color: var(--taupe-dark); margin-top: 2px; }
 
 /* ===== MODAL ===== */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(30,34,52,0.45);
+  background: rgba(76,69,60,0.40);
   display: none;
   align-items: flex-end;
   justify-content: center;
@@ -206,71 +217,91 @@ body {
   background: var(--card);
   width: 100%;
   max-width: 480px;
-  border-radius: 20px 20px 0 0;
-  padding: 20px 20px calc(20px + env(safe-area-inset-bottom));
-  animation: slideUp 0.2s ease-out;
+  border-radius: 24px 24px 0 0;
+  padding: 22px 20px calc(22px + env(safe-area-inset-bottom));
+  animation: slideUp 0.22s ease-out;
 }
 @keyframes slideUp {
   from { transform: translateY(40px); opacity: 0; }
   to   { transform: translateY(0);    opacity: 1; }
 }
-.modal h3 { font-size: 16px; font-weight: 700; margin-bottom: 14px; }
-.field { margin-bottom: 12px; }
+.modal h3 { font-size: 16px; font-weight: 700; margin-bottom: 14px; letter-spacing: 0.04em; }
+
+.preset-label { font-size: 11px; font-weight: 700; color: var(--text-mid); margin-bottom: 7px; }
+.preset-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.preset-chip {
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  border-radius: 999px;
+  padding: 8px 13px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-mid);
+  cursor: pointer;
+  font-family: var(--font);
+  transition: transform 0.1s;
+}
+.preset-chip:active { transform: scale(0.95); }
+.preset-chip.usual { border-color: var(--rose); background: var(--rose-pale); color: var(--rose-text); }
+.preset-chip.active { border-color: var(--taupe-dark); background: var(--taupe-pale); color: var(--taupe-dark); }
+
+.field { margin-bottom: 13px; }
 .field label {
   display: block;
   font-size: 12px;
   font-weight: 700;
   color: var(--text-mid);
-  margin-bottom: 4px;
+  margin-bottom: 5px;
 }
 .field input, .field select {
   width: 100%;
   font-family: var(--font);
   font-size: 16px;
-  padding: 10px 12px;
+  padding: 11px 12px;
   border: 1.5px solid var(--line);
-  border-radius: 10px;
-  background: #fafbfe;
+  border-radius: 12px;
+  background: #f6f2ec;
   color: var(--text);
   outline: none;
 }
-.field input:focus, .field select:focus { border-color: var(--primary); }
-.field-row { display: flex; gap: 10px; }
+.field input:focus, .field select:focus { border-color: var(--taupe); }
+.field-row { display: flex; gap: 10px; align-items: flex-end; }
 .field-row .field { flex: 1; }
-.field .hint { font-size: 10px; color: var(--text-light); margin-top: 3px; }
+.field .hint { font-size: 10px; color: var(--text-light); margin-top: 4px; line-height: 1.4; }
+.unit { font-size: 12px; color: var(--text-mid); white-space: nowrap; padding-bottom: 12px; }
 
-.modal-buttons { display: flex; gap: 10px; margin-top: 16px; }
+.modal-buttons { display: flex; gap: 10px; margin-top: 18px; }
 .btn {
   flex: 1;
   font-family: var(--font);
   font-size: 14px;
   font-weight: 700;
   padding: 13px;
-  border-radius: 12px;
+  border-radius: 14px;
   border: none;
   cursor: pointer;
   transition: transform 0.1s;
+  letter-spacing: 0.04em;
 }
 .btn:active { transform: scale(0.97); }
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-ghost   { background: var(--primary-pale); color: var(--primary-dark); }
-.btn-danger  { background: #fdeef1; color: var(--danger); flex: 0 0 auto; padding: 13px 16px; }
+.btn-primary { background: var(--taupe-dark); color: #fff; }
+.btn-ghost   { background: var(--taupe-pale); color: var(--taupe-dark); }
+.btn-danger  { background: #f1e2dd; color: var(--danger); flex: 0 0 auto; padding: 13px 16px; }
 
-/* ===== SALARY SCREEN ===== */
-.settings-card, .salary-card {
+/* ===== CARDS (settings / salary / year) ===== */
+.card {
   background: var(--card);
   border-radius: var(--radius);
-  padding: 16px;
+  padding: 18px;
   margin-bottom: 14px;
-  box-shadow: 0 2px 8px rgba(43,49,71,0.06);
+  box-shadow: var(--shadow);
 }
-.settings-card h3, .salary-card h3 {
-  font-size: 14px;
+.card h3 {
+  font-size: 13px;
   font-weight: 700;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  margin-bottom: 14px;
+  letter-spacing: 0.06em;
+  color: var(--taupe-dark);
 }
 
 .salary-rows { display: flex; flex-direction: column; }
@@ -278,49 +309,76 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  padding: 9px 2px;
+  padding: 10px 2px;
   border-bottom: 1px dashed var(--line);
   font-size: 13px;
 }
 .salary-row .name { color: var(--text-mid); }
 .salary-row .amount { font-weight: 700; font-size: 15px; }
 .salary-row.minus .amount { color: var(--danger); }
-.salary-row.gross .amount { color: var(--primary-dark); }
+.salary-row.gross .amount { color: var(--taupe-dark); }
 
-.net-box {
-  margin-top: 14px;
-  background: linear-gradient(135deg, var(--green) 0%, #25997a 100%);
-  border-radius: 14px;
-  padding: 16px;
+/* ===== HERO (net / year) ===== */
+.hero {
+  margin-top: 16px;
+  background: linear-gradient(135deg, var(--sage) 0%, var(--sage-deep) 100%);
+  border-radius: 16px;
+  padding: 18px;
   text-align: center;
   color: #fff;
 }
-.net-box .label { font-size: 12px; font-weight: 700; opacity: 0.9; }
-.net-box .amount { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; }
-.net-box .note { font-size: 10px; opacity: 0.85; margin-top: 4px; }
+.hero .label { font-size: 12px; font-weight: 700; opacity: 0.92; letter-spacing: 0.06em; }
+.hero .amount { font-size: 30px; font-weight: 700; letter-spacing: 0.02em; margin-top: 2px; }
+.hero .sub { font-size: 11px; opacity: 0.9; margin-top: 6px; }
+.hero .note { font-size: 10px; opacity: 0.85; margin-top: 6px; line-height: 1.4; }
 
 .empty-note {
   text-align: center;
   font-size: 12px;
   color: var(--text-light);
-  padding: 18px 0;
+  padding: 20px 0;
+  line-height: 1.7;
+}
+
+/* ===== YEAR TABLE ===== */
+.year-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.year-table th, .year-table td { padding: 9px 4px; text-align: right; }
+.year-table th {
+  color: var(--text-mid);
+  font-weight: 700;
+  font-size: 11px;
+  border-bottom: 1.5px solid var(--line);
+}
+.year-table th:first-child, .year-table td:first-child { text-align: center; }
+.year-table tbody tr { border-bottom: 1px dashed var(--line); }
+.year-table tbody td:first-child { color: var(--text-mid); font-weight: 700; }
+.year-table tbody tr.has-data td { color: var(--text); }
+.year-table tbody tr.has-data td:first-child { color: var(--taupe-dark); }
+.year-table tbody tr.empty-row td { color: var(--text-light); }
+.year-table tbody tr.cur-month { background: var(--rose-pale); }
+.year-table tfoot td {
+  padding-top: 12px;
+  font-weight: 700;
+  color: var(--taupe-dark);
+  border-top: 1.5px solid var(--line);
+  font-size: 13px;
 }
 </style>
 </head>
 <body>
 
 <header class="app-header">
-  <h1>📅 シフト管理 & 給料計算</h1>
-  <p>カレンダーにシフトを入れて、今月のお給料をチェック！</p>
+  <h1>SHIFT &amp; SALARY</h1>
+  <p>シフトを入れて、今月と一年のお給料をチェック</p>
 </header>
 
 <!-- ========== カレンダー画面 ========== -->
 <div class="screen active" id="screenCalendar">
   <div class="container">
-    <div class="month-nav">
-      <button id="calPrev" aria-label="前の月">◀</button>
+    <div class="period-nav">
+      <button id="calPrev" aria-label="前の月">‹</button>
       <h2 id="calTitle"></h2>
-      <button id="calNext" aria-label="次の月">▶</button>
+      <button id="calNext" aria-label="次の月">›</button>
     </div>
 
     <div class="calendar">
@@ -350,35 +408,62 @@ body {
 <!-- ========== 給料画面 ========== -->
 <div class="screen" id="screenSalary">
   <div class="container">
-    <div class="month-nav">
-      <button id="salPrev" aria-label="前の月">◀</button>
+    <div class="period-nav">
+      <button id="salPrev" aria-label="前の月">‹</button>
       <h2 id="salTitle"></h2>
-      <button id="salNext" aria-label="次の月">▶</button>
+      <button id="salNext" aria-label="次の月">›</button>
     </div>
 
-    <div class="settings-card">
-      <h3>⚙️ 給与の設定</h3>
-      <div class="field-row">
-        <div class="field">
-          <label for="setWage">時給（円）</label>
-          <input type="number" id="setWage" inputmode="numeric" min="0" step="1">
-        </div>
-        <div class="field">
-          <label for="setTransport">交通費（円/日）</label>
-          <input type="number" id="setTransport" inputmode="numeric" min="0" step="1">
-        </div>
+    <div class="card">
+      <h3>給与の設定</h3>
+      <div class="field">
+        <label for="setWage">時給（円）</label>
+        <input type="number" id="setWage" inputmode="numeric" min="0" step="1">
       </div>
+
+      <div class="field">
+        <label for="setTransportMode">交通費の計算方法</label>
+        <select id="setTransportMode">
+          <option value="daily">日額（出勤した日数ぶん）</option>
+          <option value="monthly">月額（定期代など固定）</option>
+        </select>
+      </div>
+      <div class="field-row">
+        <div class="field" style="margin-bottom:0;">
+          <label for="setTransportAmount">交通費の金額</label>
+          <input type="number" id="setTransportAmount" inputmode="numeric" min="0" step="1">
+        </div>
+        <span class="unit" id="transportUnit">円/日</span>
+      </div>
+      <div class="hint" style="font-size:10px;color:var(--text-light);margin:4px 0 13px;">月額にすると、出勤が1日でもある月にその金額を満額計上します</div>
+
       <div class="field">
         <label for="setInsurance">雇用保険料率（％・本人負担分）</label>
         <input type="number" id="setInsurance" inputmode="decimal" min="0" step="0.01">
         <div class="hint">2025年度の一般の事業は 0.55%（変わったらここを直してね）</div>
       </div>
+
+      <div class="field" style="margin-bottom:0;">
+        <label>いつものシフト（入力画面にワンタップで出ます）</label>
+        <div class="field-row" style="margin-top:5px;">
+          <div class="field" style="margin-bottom:0;">
+            <input type="time" id="setUsualStart">
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <input type="time" id="setUsualEnd">
+          </div>
+          <div class="field" style="margin-bottom:0;max-width:90px;">
+            <input type="number" id="setUsualBreak" inputmode="numeric" min="0" step="5" placeholder="休憩分">
+          </div>
+        </div>
+        <div class="hint">開始・終了・休憩（分）</div>
+      </div>
     </div>
 
-    <div class="salary-card">
-      <h3>💰 今月のお給料</h3>
+    <div class="card">
+      <h3>今月のお給料</h3>
       <div class="salary-rows" id="salaryRows"></div>
-      <div class="net-box">
+      <div class="hero">
         <div class="label">手取り見込み</div>
         <div class="amount" id="netAmount">¥0</div>
         <div class="note">※ 雇用保険のみ控除した概算です（所得税・住民税などは含みません）</div>
@@ -387,10 +472,51 @@ body {
   </div>
 </div>
 
+<!-- ========== 年間集計画面 ========== -->
+<div class="screen" id="screenYear">
+  <div class="container">
+    <div class="period-nav">
+      <button id="yearPrev" aria-label="前の年">‹</button>
+      <h2 id="yearTitle"></h2>
+      <button id="yearNext" aria-label="次の年">›</button>
+    </div>
+
+    <div class="card">
+      <div class="hero" style="margin-top:0;">
+        <div class="label">年間 手取り合計</div>
+        <div class="amount" id="yearNet">¥0</div>
+        <div class="sub" id="yearSub">総支給 ¥0 ・ 雇用保険 −¥0</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>月別の集計</h3>
+      <table class="year-table">
+        <thead>
+          <tr><th>月</th><th>日数</th><th>時間</th><th>手取り</th></tr>
+        </thead>
+        <tbody id="yearBody"></tbody>
+        <tfoot>
+          <tr>
+            <td>合計</td>
+            <td id="yearTotalDays">0</td>
+            <td id="yearTotalHours">0h</td>
+            <td id="yearTotalNet">¥0</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+
 <!-- ========== シフト入力モーダル ========== -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <h3 id="modalTitle">シフト入力</h3>
+
+    <div class="preset-label">よく使うシフト</div>
+    <div class="preset-chips" id="presetChips"></div>
+
     <div class="field-row">
       <div class="field">
         <label for="inpStart">開始</label>
@@ -398,7 +524,7 @@ body {
       </div>
       <div class="field">
         <label for="inpEnd">終了</label>
-        <input type="time" id="inpEnd" value="17:00">
+        <input type="time" id="inpEnd" value="16:00">
       </div>
     </div>
     <div class="field">
@@ -417,7 +543,8 @@ body {
 <!-- ========== タブバー ========== -->
 <nav class="tabbar">
   <button class="active" id="tabCalendar"><span class="ico">🗓️</span>シフト</button>
-  <button id="tabSalary"><span class="ico">💰</span>給料</button>
+  <button id="tabSalary"><span class="ico">🪙</span>給料</button>
+  <button id="tabYear"><span class="ico">📊</span>年間</button>
 </nav>
 
 <script>
@@ -429,14 +556,31 @@ body {
 const STORE_KEY = 'shiftApp.v1';
 
 function loadStore() {
+  let data = {};
   try {
     const raw = localStorage.getItem(STORE_KEY);
-    if (raw) return JSON.parse(raw);
+    if (raw) data = JSON.parse(raw);
   } catch (e) { /* 壊れたデータは初期化 */ }
-  return {
-    settings: { wage: 1200, transport: 500, insuranceRate: 0.55 },
-    shifts: {}   // "YYYY-MM-DD": { start:"09:00", end:"17:00", breakMin:60 }
+
+  const defaults = {
+    wage: 1200,
+    transportMode: 'daily',          // 'daily' | 'monthly'
+    transportDaily: 500,
+    transportMonthly: 10000,
+    insuranceRate: 0.55,
+    usualShift: { start: '09:00', end: '16:00', breakMin: 60 }
   };
+  const s = Object.assign({}, defaults, data.settings || {});
+
+  // 旧バージョン（交通費が日額のみ）からの移行
+  if (data.settings && data.settings.transport != null && data.settings.transportDaily == null) {
+    s.transportDaily = data.settings.transport;
+  }
+  if (!s.usualShift || typeof s.usualShift !== 'object') {
+    s.usualShift = { start: '09:00', end: '16:00', breakMin: 60 };
+  }
+
+  return { settings: s, shifts: data.shifts || {} };
 }
 
 function saveStore() {
@@ -450,8 +594,9 @@ const store = loadStore();
 ============================== */
 const today = new Date();
 let viewYear = today.getFullYear();
-let viewMonth = today.getMonth();   // 0-11、カレンダー/給料画面で共通
-let editingDate = null;             // "YYYY-MM-DD"
+let viewMonth = today.getMonth();           // 0-11、シフト/給料で共通
+let yearView = today.getFullYear();         // 年間画面用
+let editingDate = null;                      // "YYYY-MM-DD"
 
 /* ==============================
    HELPERS
@@ -477,17 +622,35 @@ function monthShifts(year, month) {
 }
 
 function calcSalary(year, month) {
-  const { wage, transport, insuranceRate } = store.settings;
+  const s = store.settings;
   const shifts = monthShifts(year, month);
   const days = shifts.length;
-  const hours = shifts.reduce((sum, [, s]) => sum + shiftHours(s), 0);
-  const basePay = Math.floor(hours * wage);
-  const transportTotal = transport * days;
+  const hours = shifts.reduce((sum, [, sh]) => sum + shiftHours(sh), 0);
+  const basePay = Math.floor(hours * s.wage);
+
+  let transportTotal = 0;
+  if (days > 0) {
+    transportTotal = s.transportMode === 'monthly'
+      ? s.transportMonthly
+      : s.transportDaily * days;
+  }
+
   const gross = basePay + transportTotal;
   // 雇用保険料は通勤手当も含めた総支給額が対象
-  const insurance = Math.round(gross * insuranceRate / 100);
+  const insurance = Math.round(gross * s.insuranceRate / 100);
   const net = gross - insurance;
   return { days, hours, basePay, transportTotal, gross, insurance, net };
+}
+
+function calcYear(year) {
+  const months = [];
+  const total = { days: 0, hours: 0, basePay: 0, transportTotal: 0, gross: 0, insurance: 0, net: 0 };
+  for (let m = 0; m < 12; m++) {
+    const s = calcSalary(year, m);
+    months.push(s);
+    for (const k in total) total[k] += s[k];
+  }
+  return { months, total };
 }
 
 function formatHours(h) {
@@ -560,12 +723,56 @@ function renderMiniSummary() {
 }
 
 /* ==============================
-   MODAL
+   MODAL（プリセット＝よく使うシフト）
 ============================== */
 const overlay = document.getElementById('modalOverlay');
 const inpStart = document.getElementById('inpStart');
 const inpEnd = document.getElementById('inpEnd');
 const inpBreak = document.getElementById('inpBreak');
+const presetChips = document.getElementById('presetChips');
+
+// 「いつものシフト」を先頭に、定番をいくつか並べる
+function getPresets() {
+  const u = store.settings.usualShift;
+  const commons = [
+    { start: '09:00', end: '17:00', breakMin: 60 },
+    { start: '10:00', end: '18:00', breakMin: 60 },
+    { start: '13:00', end: '22:00', breakMin: 60 }
+  ];
+  const isSame = (a, b) => a.start === b.start && a.end === b.end && (a.breakMin || 0) === (b.breakMin || 0);
+  const list = [u, ...commons.filter(c => !isSame(c, u))];
+  return list.slice(0, 4);
+}
+
+function renderPresetChips() {
+  presetChips.innerHTML = '';
+  getPresets().forEach((p, i) => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'preset-chip' + (i === 0 ? ' usual' : '');
+    chip.dataset.start = p.start;
+    chip.dataset.end = p.end;
+    chip.dataset.break = p.breakMin || 0;
+    chip.textContent = (i === 0 ? '★ ' : '') + `${p.start}〜${p.end}`;
+    chip.addEventListener('click', () => {
+      inpStart.value = p.start;
+      inpEnd.value = p.end;
+      inpBreak.value = p.breakMin || 0;
+      highlightActiveChip();
+    });
+    presetChips.appendChild(chip);
+  });
+  highlightActiveChip();
+}
+
+function highlightActiveChip() {
+  presetChips.querySelectorAll('.preset-chip').forEach(chip => {
+    const match = chip.dataset.start === inpStart.value
+      && chip.dataset.end === inpEnd.value
+      && String(chip.dataset.break) === String(parseInt(inpBreak.value, 10) || 0);
+    chip.classList.toggle('active', match);
+  });
+}
 
 function openModal(key) {
   editingDate = key;
@@ -574,14 +781,13 @@ function openModal(key) {
   document.getElementById('modalTitle').textContent = `${m}月${d}日（${dow}）のシフト`;
 
   const shift = store.shifts[key];
-  if (shift) {
-    inpStart.value = shift.start;
-    inpEnd.value = shift.end;
-    inpBreak.value = shift.breakMin;
-  }
-  // 未入力の日は前回の入力値をそのまま引き継ぐ（連続入力がラク）
+  const base = shift || store.settings.usualShift;   // 新しい日は「いつものシフト」を初期表示
+  inpStart.value = base.start;
+  inpEnd.value = base.end;
+  inpBreak.value = base.breakMin || 0;
 
   document.getElementById('btnDelete').style.display = shift ? 'block' : 'none';
+  renderPresetChips();
   overlay.classList.add('open');
 }
 
@@ -589,6 +795,8 @@ function closeModal() {
   overlay.classList.remove('open');
   editingDate = null;
 }
+
+[inpStart, inpEnd, inpBreak].forEach(el => el.addEventListener('input', highlightActiveChip));
 
 document.getElementById('btnSave').addEventListener('click', () => {
   if (!editingDate) return;
@@ -600,8 +808,7 @@ document.getElementById('btnSave').addEventListener('click', () => {
   };
   saveStore();
   closeModal();
-  renderCalendar();
-  renderSalary();
+  renderAll();
 });
 
 document.getElementById('btnDelete').addEventListener('click', () => {
@@ -609,8 +816,7 @@ document.getElementById('btnDelete').addEventListener('click', () => {
   delete store.shifts[editingDate];
   saveStore();
   closeModal();
-  renderCalendar();
-  renderSalary();
+  renderAll();
 });
 
 document.getElementById('btnCancel').addEventListener('click', closeModal);
@@ -625,19 +831,24 @@ const salaryRows = document.getElementById('salaryRows');
 function renderSalary() {
   salTitle.textContent = `${viewYear}年 ${viewMonth + 1}月`;
   const s = calcSalary(viewYear, viewMonth);
+  const set = store.settings;
 
   if (s.days === 0) {
     salaryRows.innerHTML = '<div class="empty-note">この月のシフトはまだありません🌱<br>カレンダーから入れてみてね</div>';
   } else {
-    salaryRows.innerHTML = '';
+    const transportName = set.transportMode === 'monthly'
+      ? `交通費（月額）`
+      : `交通費（${yen(set.transportDaily)} × ${s.days}日）`;
+
     const rows = [
       ['出勤日数', `${s.days}日`, ''],
       ['勤務時間', formatHours(s.hours), ''],
-      [`基本給（時給 ${yen(store.settings.wage)}）`, yen(s.basePay), ''],
-      [`交通費（${yen(store.settings.transport)} × ${s.days}日）`, yen(s.transportTotal), ''],
+      [`基本給（時給 ${yen(set.wage)}）`, yen(s.basePay), ''],
+      [transportName, yen(s.transportTotal), ''],
       ['総支給額', yen(s.gross), 'gross'],
-      [`雇用保険料（${store.settings.insuranceRate}%）`, '− ' + yen(s.insurance), 'minus']
+      [`雇用保険料（${set.insuranceRate}%）`, '− ' + yen(s.insurance), 'minus']
     ];
+    salaryRows.innerHTML = '';
     for (const [name, amount, cls] of rows) {
       const row = document.createElement('div');
       row.className = 'salary-row' + (cls ? ' ' + cls : '');
@@ -652,32 +863,122 @@ function renderSalary() {
 }
 
 /* ==============================
+   YEAR RENDER
+============================== */
+const yearTitle = document.getElementById('yearTitle');
+const yearBody = document.getElementById('yearBody');
+
+function renderYear() {
+  yearTitle.textContent = `${yearView}年`;
+  const { months, total } = calcYear(yearView);
+
+  document.getElementById('yearNet').textContent = yen(total.net);
+  document.getElementById('yearSub').textContent =
+    `総支給 ${yen(total.gross)} ・ 雇用保険 −${yen(total.insurance)}`;
+
+  yearBody.innerHTML = '';
+  months.forEach((s, m) => {
+    const tr = document.createElement('tr');
+    const hasData = s.days > 0;
+    tr.className = hasData ? 'has-data' : 'empty-row';
+    if (yearView === today.getFullYear() && m === today.getMonth()) tr.classList.add('cur-month');
+    const cells = [
+      `${m + 1}月`,
+      hasData ? `${s.days}` : '−',
+      hasData ? formatHours(s.hours) : '−',
+      hasData ? yen(s.net) : '−'
+    ];
+    for (const c of cells) {
+      const td = document.createElement('td');
+      td.textContent = c;
+      tr.appendChild(td);
+    }
+    yearBody.appendChild(tr);
+  });
+
+  document.getElementById('yearTotalDays').textContent = `${total.days}`;
+  document.getElementById('yearTotalHours').textContent = formatHours(total.hours);
+  document.getElementById('yearTotalNet').textContent = yen(total.net);
+}
+
+/* ==============================
    SETTINGS
 ============================== */
 const setWage = document.getElementById('setWage');
-const setTransport = document.getElementById('setTransport');
+const setTransportMode = document.getElementById('setTransportMode');
+const setTransportAmount = document.getElementById('setTransportAmount');
+const transportUnit = document.getElementById('transportUnit');
 const setInsurance = document.getElementById('setInsurance');
+const setUsualStart = document.getElementById('setUsualStart');
+const setUsualEnd = document.getElementById('setUsualEnd');
+const setUsualBreak = document.getElementById('setUsualBreak');
 
 function loadSettingsInputs() {
-  setWage.value = store.settings.wage;
-  setTransport.value = store.settings.transport;
-  setInsurance.value = store.settings.insuranceRate;
+  const s = store.settings;
+  setWage.value = s.wage;
+  setInsurance.value = s.insuranceRate;
+  setTransportMode.value = s.transportMode;
+  loadTransportAmount();
+  setUsualStart.value = s.usualShift.start;
+  setUsualEnd.value = s.usualShift.end;
+  setUsualBreak.value = s.usualShift.breakMin;
 }
 
-function onSettingChange() {
+function loadTransportAmount() {
+  const s = store.settings;
+  if (s.transportMode === 'monthly') {
+    setTransportAmount.value = s.transportMonthly;
+    transportUnit.textContent = '円/月';
+  } else {
+    setTransportAmount.value = s.transportDaily;
+    transportUnit.textContent = '円/日';
+  }
+}
+
+setWage.addEventListener('input', () => {
   store.settings.wage = Math.max(0, parseInt(setWage.value, 10) || 0);
-  store.settings.transport = Math.max(0, parseInt(setTransport.value, 10) || 0);
-  store.settings.insuranceRate = Math.max(0, parseFloat(setInsurance.value) || 0);
-  saveStore();
-  renderSalary();
-  renderMiniSummary();
-}
+  saveStore(); renderSalary(); renderMiniSummary(); renderYear();
+});
 
-[setWage, setTransport, setInsurance].forEach(el => el.addEventListener('input', onSettingChange));
+setInsurance.addEventListener('input', () => {
+  store.settings.insuranceRate = Math.max(0, parseFloat(setInsurance.value) || 0);
+  saveStore(); renderSalary(); renderMiniSummary(); renderYear();
+});
+
+setTransportMode.addEventListener('change', () => {
+  store.settings.transportMode = setTransportMode.value;
+  saveStore();
+  loadTransportAmount();
+  renderSalary(); renderMiniSummary(); renderYear();
+});
+
+setTransportAmount.addEventListener('input', () => {
+  const val = Math.max(0, parseInt(setTransportAmount.value, 10) || 0);
+  if (store.settings.transportMode === 'monthly') store.settings.transportMonthly = val;
+  else store.settings.transportDaily = val;
+  saveStore();
+  renderSalary(); renderMiniSummary(); renderYear();
+});
+
+function onUsualChange() {
+  store.settings.usualShift = {
+    start: setUsualStart.value || '09:00',
+    end: setUsualEnd.value || '16:00',
+    breakMin: Math.max(0, parseInt(setUsualBreak.value, 10) || 0)
+  };
+  saveStore();
+}
+[setUsualStart, setUsualEnd, setUsualBreak].forEach(el => el.addEventListener('input', onUsualChange));
 
 /* ==============================
-   MONTH NAV & TABS
+   PERIOD NAV & TABS
 ============================== */
+function renderAll() {
+  renderCalendar();
+  renderSalary();
+  renderYear();
+}
+
 function changeMonth(delta) {
   viewMonth += delta;
   if (viewMonth < 0) { viewMonth = 11; viewYear--; }
@@ -691,25 +992,37 @@ document.getElementById('calNext').addEventListener('click', () => changeMonth(1
 document.getElementById('salPrev').addEventListener('click', () => changeMonth(-1));
 document.getElementById('salNext').addEventListener('click', () => changeMonth(1));
 
-const tabCalendar = document.getElementById('tabCalendar');
-const tabSalary = document.getElementById('tabSalary');
+document.getElementById('yearPrev').addEventListener('click', () => { yearView--; renderYear(); });
+document.getElementById('yearNext').addEventListener('click', () => { yearView++; renderYear(); });
+
+const tabs = {
+  calendar: document.getElementById('tabCalendar'),
+  salary:   document.getElementById('tabSalary'),
+  year:     document.getElementById('tabYear')
+};
+const screens = {
+  calendar: document.getElementById('screenCalendar'),
+  salary:   document.getElementById('screenSalary'),
+  year:     document.getElementById('screenYear')
+};
 
 function showScreen(name) {
-  document.getElementById('screenCalendar').classList.toggle('active', name === 'calendar');
-  document.getElementById('screenSalary').classList.toggle('active', name === 'salary');
-  tabCalendar.classList.toggle('active', name === 'calendar');
-  tabSalary.classList.toggle('active', name === 'salary');
+  for (const k in screens) {
+    screens[k].classList.toggle('active', k === name);
+    tabs[k].classList.toggle('active', k === name);
+  }
+  if (name === 'year') renderYear();
 }
 
-tabCalendar.addEventListener('click', () => showScreen('calendar'));
-tabSalary.addEventListener('click', () => showScreen('salary'));
+tabs.calendar.addEventListener('click', () => showScreen('calendar'));
+tabs.salary.addEventListener('click', () => showScreen('salary'));
+tabs.year.addEventListener('click', () => showScreen('year'));
 
 /* ==============================
    INIT
 ============================== */
 loadSettingsInputs();
-renderCalendar();
-renderSalary();
+renderAll();
 </script>
 </body>
 </html>

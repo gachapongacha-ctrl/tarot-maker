@@ -197,6 +197,16 @@ body {
   font-size: 9px;
   color: var(--text-mid);
 }
+.cal-day .holiday-name {
+  font-size: 8px;
+  color: var(--danger);
+  line-height: 1.2;
+  word-break: keep-all;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
 
 /* ===== MINI SUMMARY ===== */
 .mini-summary {
@@ -740,6 +750,38 @@ let salaryMode = 'plan';                     // 給料画面: 'plan' | 'actual'
 let yearMode = 'plan';                       // 年間画面: 'plan' | 'actual'
 
 /* ==============================
+   HOLIDAYS（holidays-jp API + localStorage キャッシュ）
+============================== */
+const holidayCache = {};   // { "YYYY-MM-DD": "祝日名" }
+
+async function fetchHolidays(year) {
+  if (holidayCache[year]) return;   // すでに読み込み済み
+  const cacheKey = `shiftApp.holidays.${year}`;
+  try {
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) {
+      Object.assign(holidayCache, JSON.parse(cached));
+      return;
+    }
+  } catch (e) { /* 無視 */ }
+
+  try {
+    const res = await fetch(`https://holidays-jp.github.io/api/v1/${year}/date.json`);
+    if (!res.ok) return;
+    const data = await res.json();   // { "YYYY-MM-DD": "祝日名", ... }
+    Object.assign(holidayCache, data);
+    holidayCache[year] = true;       // 取得済みフラグ
+    localStorage.setItem(cacheKey, JSON.stringify(data));
+  } catch (e) { /* オフライン時は無視 */ }
+}
+
+async function ensureHolidays(year) {
+  // 前後年も先読みしておくと月またぎでも即表示できる
+  await Promise.all([year - 1, year, year + 1].map(y => fetchHolidays(y)));
+  renderCalendar();
+}
+
+/* ==============================
    HELPERS
 ============================== */
 const pad2 = n => String(n).padStart(2, '0');
@@ -824,10 +866,11 @@ function renderCalendar() {
     const key = dateKey(viewYear, viewMonth, d);
     const dow = (firstDow + d - 1) % 7;
     const shift = store.shifts[key];
+    const holidayName = holidayCache[key];
 
     const cell = document.createElement('div');
     cell.className = 'cal-day';
-    if (dow === 0) cell.classList.add('sun');
+    if (dow === 0 || holidayName) cell.classList.add('sun');   // 祝日も赤扱い
     if (dow === 6) cell.classList.add('sat');
     if (viewYear === today.getFullYear() && viewMonth === today.getMonth() && d === today.getDate()) {
       cell.classList.add('today');
@@ -837,6 +880,13 @@ function renderCalendar() {
     num.className = 'num';
     num.textContent = d;
     cell.appendChild(num);
+
+    if (holidayName && typeof holidayName === 'string') {
+      const hol = document.createElement('span');
+      hol.className = 'holiday-name';
+      hol.textContent = holidayName;
+      cell.appendChild(hol);
+    }
 
     if (shift) {
       cell.classList.add('has-shift');
@@ -1161,6 +1211,7 @@ function changeMonth(delta) {
   if (viewMonth > 11) { viewMonth = 0; viewYear++; }
   renderCalendar();
   renderSalary();
+  ensureHolidays(viewYear);
 }
 
 document.getElementById('calPrev').addEventListener('click', () => changeMonth(-1));
@@ -1202,6 +1253,7 @@ tabs.year.addEventListener('click', () => showScreen('year'));
 ============================== */
 loadSettingsInputs();
 renderAll();
+ensureHolidays(viewYear);
 </script>
 </body>
 </html>

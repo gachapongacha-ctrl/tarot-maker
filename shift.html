@@ -353,6 +353,90 @@ body {
   line-height: 1.7;
 }
 
+/* ===== PLAN / ACTUAL ===== */
+.cal-day.has-shift.done { background: #e4ebdc; }            /* 実績は緑系 */
+.cal-day.done .shift-time { color: var(--sage-deep); }
+.cal-day.done .shift-hours { color: var(--sage-deep); font-weight: 700; }
+
+.mode-cards { display: flex; gap: 10px; margin-bottom: 16px; }
+.mode-card {
+  flex: 1;
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  border-radius: 14px;
+  padding: 13px 8px;
+  text-align: center;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: all 0.15s;
+}
+.mode-card:active { transform: scale(0.98); }
+.mode-card .mc-label { display: block; font-size: 11px; font-weight: 700; color: var(--text-mid); letter-spacing: 0.03em; }
+.mode-card .mc-net { display: block; font-size: 20px; font-weight: 700; color: var(--text-light); margin: 4px 0 2px; }
+.mode-card .mc-sub { display: block; font-size: 10px; color: var(--text-light); }
+.mode-card.plan.active   { border-color: var(--rose); background: var(--rose-pale); }
+.mode-card.plan.active .mc-net   { color: var(--rose-text); }
+.mode-card.actual.active { border-color: var(--sage-deep); background: #e4ebdc; }
+.mode-card.actual.active .mc-net { color: var(--sage-deep); }
+
+.seg-toggle {
+  display: flex;
+  gap: 6px;
+  background: var(--taupe-pale);
+  padding: 4px;
+  border-radius: 13px;
+  margin-bottom: 14px;
+}
+.seg-toggle button {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-mid);
+  padding: 9px;
+  border-radius: 10px;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: all 0.15s;
+}
+.seg-toggle button.active { background: var(--card); color: var(--taupe-dark); box-shadow: 0 1px 5px rgba(124,108,90,0.15); }
+
+.done-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f6f2ec;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.done-toggle .dt-text { font-size: 13px; font-weight: 700; color: var(--text-mid); }
+.done-toggle.on { border-color: var(--sage-deep); background: #e4ebdc; }
+.done-toggle.on .dt-text { color: var(--sage-deep); }
+.switch {
+  width: 44px; height: 26px;
+  border-radius: 999px;
+  background: var(--text-light);
+  position: relative;
+  flex: 0 0 auto;
+  transition: background 0.15s;
+}
+.switch::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.15s;
+}
+.done-toggle.on .switch { background: var(--sage-deep); }
+.done-toggle.on .switch::after { transform: translateX(18px); }
+
 /* ===== YEAR TABLE ===== */
 .year-table { width: 100%; border-collapse: collapse; font-size: 12px; }
 .year-table th, .year-table td { padding: 9px 4px; text-align: right; }
@@ -475,11 +559,21 @@ body {
 
     <div class="card">
       <h3>今月のお給料</h3>
+      <div class="mode-cards">
+        <button class="mode-card plan active" id="modeCardPlan">
+          <span class="mc-label">予定（見込み）</span>
+          <span class="mc-net" id="planNet">¥0</span>
+          <span class="mc-sub" id="planSub">0日 ・ 0h</span>
+        </button>
+        <button class="mode-card actual" id="modeCardActual">
+          <span class="mc-label">実績（出勤済み）</span>
+          <span class="mc-net" id="actualNet">¥0</span>
+          <span class="mc-sub" id="actualSub">0日 ・ 0h</span>
+        </button>
+      </div>
       <div class="salary-rows" id="salaryRows"></div>
-      <div class="hero">
-        <div class="label">手取り見込み</div>
-        <div class="amount" id="netAmount">¥0</div>
-        <div class="note">※ 雇用保険のみ控除した概算です（所得税・住民税などは含みません）</div>
+      <div class="note" style="font-size:10px;color:var(--text-light);margin-top:12px;text-align:center;line-height:1.5;">
+        ※ 雇用保険のみ控除した概算です（所得税・住民税などは含みません）
       </div>
     </div>
   </div>
@@ -494,9 +588,14 @@ body {
       <button id="yearNext" aria-label="次の年">›</button>
     </div>
 
+    <div class="seg-toggle">
+      <button id="yearModePlan" class="active">予定</button>
+      <button id="yearModeActual">実績</button>
+    </div>
+
     <div class="card">
       <div class="hero" style="margin-top:0;">
-        <div class="label">年間 手取り合計</div>
+        <div class="label" id="yearNetLabel">年間 手取り合計（予定）</div>
         <div class="amount" id="yearNet">¥0</div>
         <div class="sub" id="yearSub">総支給 ¥0 ・ 雇用保険 −¥0</div>
       </div>
@@ -545,6 +644,11 @@ body {
       <input type="number" id="inpBreak" inputmode="numeric" min="0" step="5" value="60">
       <div class="hint">終了が開始より早い場合は日をまたぐ夜勤として計算します</div>
     </div>
+    <div class="done-toggle" id="doneToggle">
+      <span class="dt-text">この日は出勤した（実績にする）</span>
+      <span class="switch"></span>
+    </div>
+    <div class="hint" style="margin:6px 2px 0;">オフ＝予定／オンにすると実績の給料に加算されます</div>
     <div class="modal-buttons">
       <button class="btn btn-danger" id="btnDelete">削除</button>
       <button class="btn btn-ghost" id="btnCancel">閉じる</button>
@@ -631,6 +735,9 @@ let viewYear = today.getFullYear();
 let viewMonth = today.getMonth();           // 0-11、シフト/給料で共通
 let yearView = today.getFullYear();         // 年間画面用
 let editingDate = null;                      // "YYYY-MM-DD"
+let editingDone = false;                     // モーダルの「実績」トグル状態
+let salaryMode = 'plan';                     // 給料画面: 'plan' | 'actual'
+let yearMode = 'plan';                       // 年間画面: 'plan' | 'actual'
 
 /* ==============================
    HELPERS
@@ -655,9 +762,10 @@ function monthShifts(year, month) {
     .sort(([a], [b]) => a.localeCompare(b));
 }
 
-function calcSalary(year, month) {
+function calcSalary(year, month, mode) {
   const s = store.settings;
-  const shifts = monthShifts(year, month);
+  let shifts = monthShifts(year, month);
+  if (mode === 'actual') shifts = shifts.filter(([, sh]) => sh.done);   // 実績＝出勤済みのみ
   const days = shifts.length;
   const hours = shifts.reduce((sum, [, sh]) => sum + shiftHours(sh), 0);
   const basePay = Math.floor(hours * s.wage);
@@ -676,11 +784,11 @@ function calcSalary(year, month) {
   return { days, hours, basePay, transportTotal, gross, insurance, net };
 }
 
-function calcYear(year) {
+function calcYear(year, mode) {
   const months = [];
   const total = { days: 0, hours: 0, basePay: 0, transportTotal: 0, gross: 0, insurance: 0, net: 0 };
   for (let m = 0; m < 12; m++) {
-    const s = calcSalary(year, m);
+    const s = calcSalary(year, m, mode);
     months.push(s);
     for (const k in total) total[k] += s[k];
   }
@@ -732,13 +840,14 @@ function renderCalendar() {
 
     if (shift) {
       cell.classList.add('has-shift');
+      if (shift.done) cell.classList.add('done');
       const time = document.createElement('span');
       time.className = 'shift-time';
       time.textContent = `${shift.start}〜`;
       cell.appendChild(time);
       const hrs = document.createElement('span');
       hrs.className = 'shift-hours';
-      hrs.textContent = formatHours(shiftHours(shift));
+      hrs.textContent = (shift.done ? '✓ ' : '') + formatHours(shiftHours(shift));
       cell.appendChild(hrs);
     }
 
@@ -764,6 +873,13 @@ const inpStart = document.getElementById('inpStart');
 const inpEnd = document.getElementById('inpEnd');
 const inpBreak = document.getElementById('inpBreak');
 const presetChips = document.getElementById('presetChips');
+const doneToggle = document.getElementById('doneToggle');
+
+function setEditingDone(on) {
+  editingDone = on;
+  doneToggle.classList.toggle('on', on);
+}
+doneToggle.addEventListener('click', () => setEditingDone(!editingDone));
 
 // 「いつものシフト」を先頭に、定番をいくつか並べる
 function getPresets() {
@@ -819,6 +935,7 @@ function openModal(key) {
   inpStart.value = base.start;
   inpEnd.value = base.end;
   inpBreak.value = base.breakMin || 0;
+  setEditingDone(shift ? !!shift.done : false);
 
   document.getElementById('btnDelete').style.display = shift ? 'block' : 'none';
   renderPresetChips();
@@ -838,7 +955,8 @@ document.getElementById('btnSave').addEventListener('click', () => {
   store.shifts[editingDate] = {
     start: inpStart.value,
     end: inpEnd.value,
-    breakMin: Math.max(0, parseInt(inpBreak.value, 10) || 0)
+    breakMin: Math.max(0, parseInt(inpBreak.value, 10) || 0),
+    done: editingDone
   };
   saveStore();
   closeModal();
@@ -862,39 +980,59 @@ overlay.addEventListener('click', e => { if (e.target === overlay) closeModal();
 const salTitle = document.getElementById('salTitle');
 const salaryRows = document.getElementById('salaryRows');
 
+const modeCardPlan = document.getElementById('modeCardPlan');
+const modeCardActual = document.getElementById('modeCardActual');
+
 function renderSalary() {
   salTitle.textContent = `${viewYear}年 ${viewMonth + 1}月`;
-  const s = calcSalary(viewYear, viewMonth);
   const set = store.settings;
+  const plan = calcSalary(viewYear, viewMonth, 'plan');
+  const actual = calcSalary(viewYear, viewMonth, 'actual');
 
+  // 上の2枚のカード（予定／実績の手取り）
+  document.getElementById('planNet').textContent = yen(plan.net);
+  document.getElementById('planSub').textContent = `${plan.days}日 ・ ${formatHours(plan.hours)}`;
+  document.getElementById('actualNet').textContent = yen(actual.net);
+  document.getElementById('actualSub').textContent = `${actual.days}日 ・ ${formatHours(actual.hours)}`;
+  modeCardPlan.classList.toggle('active', salaryMode === 'plan');
+  modeCardActual.classList.toggle('active', salaryMode === 'actual');
+
+  // 選択中モードの内訳
+  const s = salaryMode === 'actual' ? actual : plan;
   if (s.days === 0) {
-    salaryRows.innerHTML = '<div class="empty-note">この月のシフトはまだありません🌱<br>カレンダーから入れてみてね</div>';
-  } else {
-    const transportName = set.transportMode === 'monthly'
-      ? `交通費（月額）`
-      : `交通費（${yen(set.transportDaily)} × ${s.days}日）`;
-
-    const rows = [
-      ['出勤日数', `${s.days}日`, ''],
-      ['勤務時間', formatHours(s.hours), ''],
-      [`基本給（時給 ${yen(set.wage)}）`, yen(s.basePay), ''],
-      [transportName, yen(s.transportTotal), ''],
-      ['総支給額', yen(s.gross), 'gross'],
-      [`雇用保険料（${set.insuranceRate}%）`, '− ' + yen(s.insurance), 'minus']
-    ];
-    salaryRows.innerHTML = '';
-    for (const [name, amount, cls] of rows) {
-      const row = document.createElement('div');
-      row.className = 'salary-row' + (cls ? ' ' + cls : '');
-      row.innerHTML = `<span class="name"></span><span class="amount"></span>`;
-      row.querySelector('.name').textContent = name;
-      row.querySelector('.amount').textContent = amount;
-      salaryRows.appendChild(row);
-    }
+    const msg = salaryMode === 'actual'
+      ? 'まだ出勤済みのシフトがありません🌱<br>働いた日はシフトを開いて「出勤した」をオンにしてね'
+      : 'この月のシフトはまだありません🌱<br>カレンダーから入れてみてね';
+    salaryRows.innerHTML = `<div class="empty-note">${msg}</div>`;
+    return;
   }
 
-  document.getElementById('netAmount').textContent = yen(s.net);
+  const transportName = set.transportMode === 'monthly'
+    ? `交通費（月額）`
+    : `交通費（${yen(set.transportDaily)} × ${s.days}日）`;
+
+  const rows = [
+    [salaryMode === 'actual' ? '出勤日数（実績）' : '出勤日数（予定）', `${s.days}日`, ''],
+    ['勤務時間', formatHours(s.hours), ''],
+    [`基本給（時給 ${yen(set.wage)}）`, yen(s.basePay), ''],
+    [transportName, yen(s.transportTotal), ''],
+    ['総支給額', yen(s.gross), 'gross'],
+    [`雇用保険料（${set.insuranceRate}%）`, '− ' + yen(s.insurance), 'minus'],
+    [salaryMode === 'actual' ? '手取り（実績）' : '手取り（見込み）', yen(s.net), 'gross']
+  ];
+  salaryRows.innerHTML = '';
+  for (const [name, amount, cls] of rows) {
+    const row = document.createElement('div');
+    row.className = 'salary-row' + (cls ? ' ' + cls : '');
+    row.innerHTML = `<span class="name"></span><span class="amount"></span>`;
+    row.querySelector('.name').textContent = name;
+    row.querySelector('.amount').textContent = amount;
+    salaryRows.appendChild(row);
+  }
 }
+
+modeCardPlan.addEventListener('click', () => { salaryMode = 'plan'; renderSalary(); });
+modeCardActual.addEventListener('click', () => { salaryMode = 'actual'; renderSalary(); });
 
 /* ==============================
    YEAR RENDER
@@ -904,11 +1042,15 @@ const yearBody = document.getElementById('yearBody');
 
 function renderYear() {
   yearTitle.textContent = `${yearView}年`;
-  const { months, total } = calcYear(yearView);
+  const { months, total } = calcYear(yearView, yearMode);
+  const label = yearMode === 'actual' ? '実績' : '予定';
 
+  document.getElementById('yearNetLabel').textContent = `年間 手取り合計（${label}）`;
   document.getElementById('yearNet').textContent = yen(total.net);
   document.getElementById('yearSub').textContent =
     `総支給 ${yen(total.gross)} ・ 雇用保険 −${yen(total.insurance)}`;
+  document.getElementById('yearModePlan').classList.toggle('active', yearMode === 'plan');
+  document.getElementById('yearModeActual').classList.toggle('active', yearMode === 'actual');
 
   yearBody.innerHTML = '';
   months.forEach((s, m) => {
@@ -1028,6 +1170,9 @@ document.getElementById('salNext').addEventListener('click', () => changeMonth(1
 
 document.getElementById('yearPrev').addEventListener('click', () => { yearView--; renderYear(); });
 document.getElementById('yearNext').addEventListener('click', () => { yearView++; renderYear(); });
+
+document.getElementById('yearModePlan').addEventListener('click', () => { yearMode = 'plan'; renderYear(); });
+document.getElementById('yearModeActual').addEventListener('click', () => { yearMode = 'actual'; renderYear(); });
 
 const tabs = {
   calendar: document.getElementById('tabCalendar'),

@@ -935,13 +935,14 @@ doneToggle.addEventListener('click', () => setEditingDone(!editingDone));
 function getPresets() {
   const u = store.settings.usualShift;
   const commons = [
+    { start: '08:30', end: '15:30', breakMin: 60 },
     { start: '09:00', end: '17:00', breakMin: 60 },
     { start: '10:00', end: '18:00', breakMin: 60 },
     { start: '13:00', end: '22:00', breakMin: 60 }
   ];
   const isSame = (a, b) => a.start === b.start && a.end === b.end && (a.breakMin || 0) === (b.breakMin || 0);
   const list = [u, ...commons.filter(c => !isSame(c, u))];
-  return list.slice(0, 4);
+  return list.slice(0, 5);
 }
 
 function renderPresetChips() {
